@@ -1,3 +1,1416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cacería de Vampiros</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦇</text></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Global Error Handler -->
+    <script>
+        window.process = { env: { NODE_ENV: 'production' } };
+        window.onerror = function(message, source, lineno, colno, error) {
+            const root = document.getElementById('root');
+            if (message && message.includes('ResizeObserver')) return;
+            if (root) root.innerHTML += `<div style="color:red;padding:20px;border:1px solid red;background:white;margin:20px;z-index:9999;position:relative;">Error: ${message}</div>`;
+        };
+    </script>
+
+    <!-- React & PeerJS (Local/Offline) -->
+    <script src="./js/react.js"></script>
+    <script src="./js/react-dom.js"></script>
+    <script src="./js/babel.js"></script>
+    <script src="./js/peerjs.js"></script>
+
+    <!-- Native CSS Styles -->
+    <style>
+        :root {
+            --c-blood: #b91c1c;
+            --c-blood-dark: #7f1d1d;
+            --c-blood-light: #ef4444;
+            --c-parchment: #fdfbf7;
+            --c-parchment-dim: #f3f0e8;
+            --c-parchment-dark: #e5e0d0;
+            --c-ink: #1a1a1a;
+            --c-ink-light: #4b5563;
+            --c-white: #ffffff;
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Crimson Text', serif;
+        }
+
+        * { box-sizing: border-box; }
+        
+        body {
+            background-color: var(--c-parchment);
+            color: var(--c-ink);
+            font-family: var(--font-body);
+            margin: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+        }
+
+        /* --- Utility Classes (Mini-Framework) --- */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-wrap { flex-wrap: wrap; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-1 { flex: 1; }
+        .hidden { display: none; }
+        .block { display: block; }
+        .inline-block { display: inline-block; }
+        
+        .grid { display: grid; }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+        .h-screen { height: 100vh; }
+        .min-h-screen { min-height: 100vh; }
+        .max-w-md { max-width: 28rem; }
+        .max-w-5xl { max-width: 64rem; }
+        
+        .fixed { position: fixed; }
+        .absolute { position: absolute; }
+        .relative { position: relative; }
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        .top-0 { top: 0; }
+        .left-0 { left: 0; }
+        .right-0 { right: 0; }
+        .bottom-0 { bottom: 0; }
+        
+        .z-0 { z-index: 0; }
+        .z-10 { z-index: 10; }
+        .z-20 { z-index: 20; }
+        .z-50 { z-index: 50; }
+        .z-100 { z-index: 100; }
+
+        .p-1 { padding: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .px-8 { padding-left: 2rem; padding-right: 2rem; }
+        
+        .m-2 { margin: 0.5rem; }
+        .m-4 { margin: 1rem; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-auto { margin-top: auto; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        
+        .gap-1 { gap: 0.25rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+
+        .font-cinzel { font-family: var(--font-head); }
+        .font-crimson { font-family: var(--font-body); }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .uppercase { text-transform: uppercase; }
+        .italic { font-style: italic; }
+        .font-bold { font-weight: 700; }
+        .font-black { font-weight: 900; }
+        .underline { text-decoration: underline; }
+        .tracking-widest { letter-spacing: 0.1em; }
+        .tracking-wide { letter-spacing: 0.05em; }
+        
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+        .text-6xl { font-size: 3.75rem; }
+        .text-8xl { font-size: 6rem; }
+        .text-9xl { font-size: 8rem; }
+
+        .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .bg-white { background-color: var(--c-white); }
+        .bg-parchment { background-color: var(--c-parchment); }
+        .bg-parchment-dim { background-color: var(--c-parchment-dim); }
+        .bg-ink { background-color: var(--c-ink); }
+        .bg-blood { background-color: var(--c-blood); }
+        .bg-transparent { background-color: transparent; }
+        
+        .text-white { color: var(--c-white); }
+        .text-ink { color: var(--c-ink); }
+        .text-ink-light { color: var(--c-ink-light); }
+        .text-blood { color: var(--c-blood); }
+        
+        .border { border: 1px solid var(--c-ink); }
+        .border-2 { border: 2px solid var(--c-ink); }
+        .border-4 { border: 4px solid var(--c-ink); }
+        .border-t { border-top: 1px solid var(--c-ink); }
+        .border-t-2 { border-top: 2px solid var(--c-ink); }
+        .border-b { border-bottom: 1px solid var(--c-ink); }
+        .border-b-2 { border-bottom: 2px solid var(--c-ink); }
+        
+        .border-ink { border-color: var(--c-ink); }
+        .border-blood { border-color: var(--c-blood); }
+        .border-transparent { border-color: transparent; }
+        
+        .rounded { border-radius: 0.25rem; }
+        .rounded-sm { border-radius: 0.125rem; }
+        .rounded-full { border-radius: 9999px; }
+        
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+
+        .opacity-0 { opacity: 0; }
+        .opacity-50 { opacity: 0.5; }
+        .opacity-60 { opacity: 0.6; }
+        .opacity-100 { opacity: 1; }
+        
+        .cursor-pointer { cursor: pointer; }
+        .cursor-not-allowed { cursor: not-allowed; }
+        .grayscale { filter: grayscale(100%); }
+        .overflow-visible { overflow: visible; }
+
+        .group:hover .group-hover\:opacity-100 { opacity: 1; }
+        .hover\:bg-white:hover { background-color: var(--c-white); }
+        .hover\:bg-ink-light:hover { background-color: var(--c-ink-light); }
+        .hover\:bg-blood:hover { background-color: var(--c-blood); }
+        .hover\:bg-parchment-dim:hover { background-color: var(--c-parchment-dim); }
+        .hover\:text-ink:hover { color: var(--c-ink); }
+        .hover\:text-white:hover { color: var(--c-white); }
+        .hover\:scale-105:hover { transform: scale(1.05); }
+        .active\:scale-95:active { transform: scale(0.95); }
+        .transition-all { transition: all 0.2s ease-in-out; }
+
+        .gothic-border {
+            border: 2px solid var(--c-ink);
+            background-color: var(--c-white);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .gothic-border::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid var(--c-parchment-dark);
+            pointer-events: none;
+        }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--c-parchment-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--c-ink); border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--c-ink-light); }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        
+        @keyframes pulse { 50% { opacity: .5; } }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        
+        @keyframes bounce { 0%, 100% { transform: translateY(-25%); } 50% { transform: none; } }
+        .animate-bounce { animation: bounce 1s infinite; }
+        
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-spin { animation: spin 1s linear infinite; }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.05); }
+            60% { transform: scale(1); }
+        }
+        .animate-heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
+        
+        @keyframes slash {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(-45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(-45deg); opacity: 0; }
+        }
+        .animate-slash { animation: slash 0.2s ease-out forwards; }
+        
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .md\:block { display: block; }
+        }
+
+        .overflow-y-auto { overflow-y: auto; }
+        .max-h-60 { max-height: 15rem; }
+        .max-h-\[50vh\] { max-height: 50vh; }
+        .max-h-\[60vh\] { max-height: 60vh; }
+        .max-h-\[80vh\] { max-height: 80vh; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Application Logic Inlined -->
+    <script type="text/babel" data-presets="typescript,react">
+        const { useState, useEffect, useRef, useCallback } = React;
+        const { createRoot } = ReactDOM;
+
+        // --- TYPES & INTERFACES ---
+
+        type Role = 'VILLAGER' | 'VAMPIRE' | 'MASTER';
+        type Phase = 'LOBBY' | 'REVEAL' | 'WORD_PHASE' | 'VOTE' | 'ELIMINATION' | 'GAME_OVER';
+
+        interface Player {
+          id: string; // Peer ID
+          name: string;
+          avatar: string;
+          isHost: boolean;
+          role: Role | null;
+          isAlive: boolean;
+          isApproved: boolean; // New: For Limbo state
+          word: string | null;
+          wordSubmitted?: string;
+          isWriting?: boolean;
+          draft?: string; // New: For real-time typing
+        }
+
+        interface GameSettings {
+          villagerWord: string;
+          vampireWord: string;
+          vampireCount: number;
+          timerDuration: number;
+        }
+
+        interface GameState {
+          roomCode: string;
+          phase: Phase;
+          players: Player[];
+          timer: number;
+          settings: GameSettings;
+          winner: Role | null;
+          eliminatedPlayerId: string | null;
+          votes: Record<string, string>; // voterId -> targetId
+        }
+
+        // --- CONSTANTS ---
+
+        const APP_PREFIX = "vampire-hunt-game-app-"; // Unique prefix to avoid collision on public PeerJS server
+
+        const AUDIO_TRACKS = [
+            'background.mp3', 'cyber.mp3', 'ganador01.mp3', 'ganador02.mp3', 
+            'music.mp3', 'track1.mp3', 'track2.mp3', 'track3.mp3', 'track4.mp3', 'track5.mp3'
+        ];
+
+        const AVATARS = [
+            '👨‍🌾', '👩‍🌾', '🧛', '🐺', '🧙‍♂️', '🧚', 
+            '👸', '🤴', '💂', '🕵️', '🧟', '🦇',
+            '🎅', '🧝', '🧞', '🧜', '🧛‍♀️', '🤵',
+            '👰', '🤰', '🤱', '👳', '👲', '🧟‍♀️',
+            '🤠', '🤡', '👹', '👺', '👻', '💀',
+            '👽', '👾', '🤖', '🎃', '😺', '🐵',
+            '🐶', '🦁', '🐯', '🐮', '🐷', '🐼'
+        ];
+
+        const INITIAL_SETTINGS: GameSettings = {
+          villagerWord: 'Ajo',
+          vampireWord: 'Cebolla',
+          vampireCount: 1,
+          timerDuration: 60,
+        };
+
+        // --- AUDIO ENGINE (SFX) ---
+
+        class AudioEngine {
+          ctx = null;
+          masterGain = null;
+
+          init() {
+            try {
+                if (!this.ctx) {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContextClass) {
+                        this.ctx = new AudioContextClass();
+                        this.masterGain = this.ctx.createGain();
+                        this.masterGain.gain.value = 0.4;
+                        this.masterGain.connect(this.ctx.destination);
+                    }
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            } catch (e) {
+                console.warn("Audio init failed", e);
+            }
+          }
+
+          playClick() {
+            if (!this.ctx || !this.masterGain) return;
+            try {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+                osc.connect(gain);
+                gain.connect(this.masterGain);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.1);
+            } catch(e) {}
+          }
+
+          playSuccess() {
+            if (!this.ctx || !this.masterGain) return;
+            try {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                const now = this.ctx.currentTime;
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.connect(gain);
+                gain.connect(this.masterGain);
+                osc.start();
+                osc.stop(now + 0.5);
+            } catch(e) {}
+          }
+
+          playKick() {
+             if (!this.ctx || !this.masterGain) return;
+             try {
+                 const osc = this.ctx.createOscillator();
+                 const gain = this.ctx.createGain();
+                 osc.type = 'sawtooth';
+                 osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+                 osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.3);
+                 gain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+                 gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+                 osc.connect(gain);
+                 gain.connect(this.masterGain);
+                 osc.start();
+                 osc.stop(this.ctx.currentTime + 0.3);
+             } catch(e) {}
+          }
+
+          playStart() {
+            if (!this.ctx || !this.masterGain) return;
+            try {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(100, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(20, this.ctx.currentTime + 2);
+                gain.gain.setValueAtTime(1, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 2);
+                osc.connect(gain);
+                gain.connect(this.masterGain);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 2);
+            } catch(e) {}
+          }
+
+          playEliminate() {
+            if (!this.ctx || !this.masterGain) return;
+            try {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(50, this.ctx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.8, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(this.masterGain);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.4);
+                
+                const boom = this.ctx.createOscillator();
+                const boomGain = this.ctx.createGain();
+                boom.frequency.setValueAtTime(50, this.ctx.currentTime);
+                boomGain.gain.setValueAtTime(1, this.ctx.currentTime);
+                boomGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.5);
+                boom.connect(boomGain);
+                boomGain.connect(this.masterGain);
+                boom.start();
+                boom.stop(this.ctx.currentTime + 1.5);
+
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            } catch(e) {}
+          }
+
+          playWin() {
+            if (!this.ctx || !this.masterGain) return;
+            try {
+                const notes = [261.63, 329.63, 392.00, 523.25];
+                notes.forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime + i * 0.2);
+                    gain.gain.setValueAtTime(0, this.ctx.currentTime + i * 0.2);
+                    gain.gain.linearRampToValueAtTime(0.5, this.ctx.currentTime + i * 0.2 + 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + i * 0.2 + 2);
+                    osc.connect(gain);
+                    gain.connect(this.masterGain);
+                    osc.start(this.ctx.currentTime + i * 0.2);
+                    osc.stop(this.ctx.currentTime + i * 0.2 + 2.5);
+                });
+            } catch(e) {}
+          }
+        }
+
+        const sfx = new AudioEngine();
+
+        // --- COMPONENTS ---
+
+        const Card = ({ children, className = "" }) => (
+          <div className={`gothic-border p-6 rounded-sm ${className}`}>
+            {children}
+          </div>
+        );
+
+        const Modal = ({ isOpen, onClose, children }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <div className="relative w-full max-w-md">
+                        <Card className="bg-white shadow-2xl border-4 border-ink">
+                            {children}
+                            <button 
+                                onClick={onClose} 
+                                className="mt-6 w-full py-3 bg-ink text-white font-cinzel font-bold uppercase tracking-wider hover:bg-ink-light cursor-pointer"
+                            >
+                                Cerrar
+                            </button>
+                        </Card>
+                    </div>
+                </div>
+            );
+        };
+
+        const Button = ({ onClick, disabled, variant = 'primary', children, className = "" }) => {
+            const baseStyle = "font-cinzel tracking-wider px-6 py-2 rounded-sm transition-all uppercase text-sm font-bold border-2 active:scale-95 cursor-pointer";
+            const variants = {
+                primary: "bg-ink text-white border-ink hover:bg-ink-light shadow-sm", // Simplified shadow
+                secondary: "bg-white text-ink border-ink hover:bg-parchment-dim shadow-sm",
+                danger: "bg-blood text-white border-blood hover:bg-blood-light",
+                ghost: "bg-transparent border-transparent text-ink-light hover:text-ink underline"
+            };
+
+            return (
+                <button 
+                    onClick={(e) => {
+                        sfx.playClick();
+                        if(onClick) onClick(e);
+                    }} 
+                    disabled={disabled}
+                    className={`${baseStyle} ${variants[variant] || variants.primary} ${disabled ? 'opacity-50 cursor-not-allowed grayscale shadow-none' : ''} ${className}`}
+                >
+                    {children}
+                </button>
+            );
+        };
+
+        const Avatar = ({ char, size = 'md', className = "", selected = false, dead = false }) => {
+            const sizes = { sm: 'text-2xl w-10 h-10', md: 'text-4xl w-16 h-16', lg: 'text-6xl w-24 h-24' };
+            const selectedStyle = selected ? 'border-blood' : 'border-ink';
+            const deadStyle = dead ? 'grayscale opacity-60' : '';
+            
+            return (
+                <div className={`
+                    relative flex items-center justify-center rounded-full bg-white border-2 
+                    ${sizes[size] || sizes.md} 
+                    ${selectedStyle} ${deadStyle}
+                    transition-all ${className}
+                    ${selected ? 'transform scale-105' : ''}
+                `} style={selected ? {boxShadow: '0 0 0 4px rgba(185,28,28,0.2)'} : {}}>
+                    {char}
+                    {dead && <span className="absolute text-blood text-6xl font-black opacity-80">X</span>}
+                </div>
+            );
+        };
+
+        // --- HELPERS ---
+
+        const getRoleDisplay = (role) => {
+            if (!role) return '???';
+            if (role === 'MASTER') return 'MASTER';
+            return role === 'VAMPIRE' ? 'VAMPIRO' : 'ALDEANO';
+        };
+
+        // --- MAIN APP ---
+
+        const App = () => {
+            const [playerName, setPlayerName] = useState('');
+            const [playerAvatar, setPlayerAvatar] = useState(AVATARS[0]);
+            const [peerId, setPeerId] = useState(null);
+            const [hostId, setHostId] = useState('');
+            const [isHost, setIsHost] = useState(false);
+            const [gameState, setGameState] = useState(null);
+            const [myWord, setMyWord] = useState('');
+            const [error, setError] = useState(null);
+            const [isIdentityVisible, setIsIdentityVisible] = useState(false);
+            
+            const [isCreating, setIsCreating] = useState(false);
+            const [isLoading, setIsLoading] = useState(false);
+
+            // Visibility Toggles
+            const [showVillagerWord, setShowVillagerWord] = useState(false);
+            const [showVampireWord, setShowVampireWord] = useState(false);
+            
+            // Toggle for the secret word in Game Phase
+            const [isSecretWordRevealed, setIsSecretWordRevealed] = useState(false);
+
+            // New state for large code visibility
+            const [showLargeCode, setShowLargeCode] = useState(false);
+
+            // Audio Player State
+            const [currentTrack, setCurrentTrack] = useState(AUDIO_TRACKS[0]);
+            const [isPlaying, setIsPlaying] = useState(false);
+            const [volume, setVolume] = useState(0.5);
+            const [showAudioPanel, setShowAudioPanel] = useState(false);
+            const audioRef = useRef(null);
+
+            // Refs
+            const peerRef = useRef(null);
+            const connRef = useRef(null);
+            const connectionsRef = useRef([]);
+            const gameStateRef = useRef(null);
+
+            // Sync Ref
+            useEffect(() => {
+                gameStateRef.current = gameState;
+            }, [gameState]);
+
+            // --- AUDIO PLAYER EFFECT ---
+            useEffect(() => {
+                if (audioRef.current) {
+                    audioRef.current.volume = volume;
+                    if (isPlaying) {
+                        audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                    } else {
+                        audioRef.current.pause();
+                    }
+                }
+            }, [isPlaying, volume, currentTrack]);
+
+            // --- SFX EFFECT HANDLER ---
+            useEffect(() => {
+                if (gameState?.phase === 'ELIMINATION' || gameState?.phase === 'GAME_OVER') {
+                    if (gameState.winner) {
+                        sfx.playWin();
+                    } else {
+                        sfx.playEliminate();
+                    }
+                }
+            }, [gameState?.phase, gameState?.winner]);
+
+
+            // --- TIE GAME AUTO-RESTART ---
+            useEffect(() => {
+                if (isHost && gameState?.phase === 'ELIMINATION' && !gameState.eliminatedPlayerId && !gameState.winner) {
+                     // No winner, no eliminated player = TIE. Restart round automatically.
+                     // Handled by the main timer loop now
+                }
+            }, [gameState?.phase, isHost]);
+
+
+            // --- PEERJS SETUP ---
+
+            const initializePeer = (shortCode, retryCount = 0) => {
+                // Warning for file:// protocol
+                if (window.location.protocol === 'file:') {
+                    setError("⚠ ERROR DE PROTOCOLO: No uses doble clic. Instala 'Live Server' en VS Code o súbelo a GitHub Pages.");
+                    setIsLoading(false);
+                    return;
+                }
+
+                // Clean up previous
+                if (peerRef.current) {
+                    try { peerRef.current.destroy(); } catch(e) {}
+                    peerRef.current = null;
+                }
+
+                try {
+                    const PeerClass = window.Peer;
+                    if (!PeerClass) {
+                        setError("Librería PeerJS no cargada. Revisa tu conexión a internet.");
+                        setIsLoading(false);
+                        return;
+                    }
+                    
+                    // We prefix the ID to avoid collisions on the public server
+                    const fullId = APP_PREFIX + shortCode;
+
+                    // Use default PeerJS Cloud configuration (most stable for public usage)
+                    const peer = new PeerClass(fullId, {
+                        debug: 1
+                    });
+                    
+                    peer.on('open', (id) => {
+                        console.log("Peer Open:", id);
+                        setPeerId(id); // Internal full ID
+                        setIsLoading(false);
+                        
+                        // We assume success if we got the ID we wanted
+                        setIsHost(true);
+                        const initial = {
+                            roomCode: shortCode, // Display only short code
+                            phase: 'LOBBY',
+                            players: [{ 
+                                id: id, 
+                                name: 'NARRADOR', 
+                                avatar: '👁️', 
+                                isHost: true, 
+                                role: 'MASTER', 
+                                isAlive: true, 
+                                isApproved: true,
+                                word: null 
+                            }],
+                            timer: 0,
+                            settings: INITIAL_SETTINGS,
+                            winner: null,
+                            eliminatedPlayerId: null,
+                            votes: {}
+                        };
+                        setGameState(initial);
+                    });
+
+                    peer.on('connection', (conn) => {
+                        conn.on('data', (data) => handleHostMessage(data, conn));
+                        conn.on('open', () => {
+                            connectionsRef.current.push(conn);
+                            if (gameStateRef.current) {
+                                conn.send({ type: 'STATE_UPDATE', payload: gameStateRef.current });
+                            }
+                        });
+                        conn.on('close', () => {
+                            connectionsRef.current = connectionsRef.current.filter(c => c !== conn);
+                        });
+                    });
+
+                    peer.on('error', (err) => {
+                        console.error("Peer Error:", err);
+                        setIsLoading(false);
+
+                        if (err.type === 'unavailable-id') {
+                             // This is rare now with the prefix, but possible if code is reused instantly
+                             setError(`El código ${shortCode} está en uso. Intenta generar otro.`);
+                             setIsCreating(true); 
+                        } else if (err.type === 'network' || err.type === 'server-error' || err.type === 'socket-error') {
+                             if (retryCount < 2) {
+                                 console.log(`Reintentando... ${retryCount}`);
+                                 setTimeout(() => initializePeer(shortCode, retryCount + 1), 2000);
+                             } else {
+                                 setError("Error de Red. PeerJS Cloud puede estar saturado. Recarga la página.");
+                             }
+                        } else {
+                            setError(`Error: ${err.type}`);
+                        }
+                    });
+
+                    peerRef.current = peer;
+                } catch (e) {
+                    setError("Excepción Peer: " + e.message);
+                    setIsLoading(false);
+                }
+            };
+
+            const joinRoom = () => {
+                if (!playerName) {
+                    setError("Ingresa un nombre primero.");
+                    return;
+                }
+                sfx.init();
+                setError(null);
+                setIsLoading(true);
+                
+                let connectionTimeout;
+
+                try {
+                    const PeerClass = window.Peer;
+                     if (window.location.protocol === 'file:') {
+                        setError("⚠ ERROR: No uses file://. Sube a GitHub o usa localhost.");
+                        setIsLoading(false);
+                        return;
+                    }
+                    
+                    // Client just needs a random ID, let PeerJS assign it (UUID)
+                    const peer = new PeerClass({
+                        debug: 1
+                    });
+
+                    connectionTimeout = setTimeout(() => {
+                        setError("Tiempo agotado. El anfitrión no responde o el código es incorrecto.");
+                        if (connRef.current) connRef.current.close();
+                        peer.destroy();
+                        setPeerId(null);
+                        setIsLoading(false);
+                    }, 8000);
+                    
+                    peer.on('open', (id) => {
+                        setPeerId(id);
+                        
+                        // Connect to the prefixed host ID
+                        const targetHostId = APP_PREFIX + hostId;
+                        console.log("Connecting to:", targetHostId);
+
+                        const conn = peer.connect(targetHostId, {
+                            reliable: true
+                        });
+                        
+                        conn.on('open', () => {
+                            clearTimeout(connectionTimeout); 
+                            setIsLoading(false);
+                            conn.send({
+                                type: 'JOIN',
+                                payload: { id, name: playerName, avatar: playerAvatar }
+                            });
+                        });
+
+                        conn.on('data', (data) => {
+                            if (data.type === 'STATE_UPDATE') {
+                                setGameState(data.payload);
+                            } else if (data.type === 'KICK') {
+                                setError("Has sido expulsado por el Anfitrión.");
+                                conn.close();
+                                setGameState(null);
+                                setPeerId(null);
+                            }
+                        });
+
+                        conn.on('close', () => setError("Desconectado del Anfitrión."));
+                        connRef.current = conn;
+                    });
+                    
+                    peer.on('error', (err) => {
+                        clearTimeout(connectionTimeout); 
+                        setIsLoading(false);
+                        console.error(err);
+                        if (err.type === 'peer-unavailable') {
+                             setError("Sala no encontrada. Verifica el código (¿El Narrador está conectado?).");
+                        } else {
+                             setError(`Error de conexión (${err.type}). Intenta de nuevo.`);
+                        }
+                    });
+                    
+                    peerRef.current = peer;
+                } catch(e) {
+                    clearTimeout(connectionTimeout);
+                    setError("Error Fatal: " + e.message);
+                    setIsLoading(false);
+                }
+            };
+
+            const createRoom = () => {
+                setIsLoading(true);
+                sfx.init();
+                // Generate simple 4 digit code for UX
+                const code = Math.floor(1000 + Math.random() * 9000).toString();
+                initializePeer(code);
+            };
+
+            // --- HOST LOGIC ---
+
+            const broadcastState = (newState) => {
+                setGameState(newState);
+                connectionsRef.current.forEach(conn => {
+                    if (conn.open) conn.send({ type: 'STATE_UPDATE', payload: newState });
+                });
+            };
+
+            const handleHostMessage = (msg, conn) => {
+                const current = gameStateRef.current;
+                if (!current) return;
+
+                let newState = { ...current };
+
+                switch (msg.type) {
+                    case 'JOIN':
+                        if (current.players.find(p => p.id === msg.payload.id)) return;
+                        // Always allow joining to the array, but approval logic differs
+                        const isLobby = current.phase === 'LOBBY';
+                        const autoApprove = isLobby; 
+
+                        newState.players = [...current.players, {
+                            ...msg.payload,
+                            isHost: false,
+                            role: null,
+                            isAlive: isLobby, // If joining in lobby, alive. If mid-game, wait for approval to be set alive.
+                            isApproved: autoApprove,
+                            word: null
+                        }];
+                        break;
+                    
+                    case 'SUBMIT_WORD':
+                        newState.players = newState.players.map(p => 
+                            p.id === msg.payload.id ? { ...p, wordSubmitted: msg.payload.word, isWriting: false, draft: undefined } : p
+                        );
+                        
+                        const activePlayersForWord = newState.players.filter(p => !p.isHost && p.isApproved && p.isAlive);
+                        const allSubmitted = activePlayersForWord.every(p => p.wordSubmitted);
+                        
+                        if (allSubmitted && newState.phase === 'WORD_PHASE') {
+                             newState.phase = 'VOTE';
+                             newState.timer = 60; 
+                        }
+                        break;
+
+                    case 'SET_WRITING':
+                        newState.players = newState.players.map(p => 
+                            p.id === msg.payload.id ? { ...p, isWriting: msg.payload.isWriting, draft: msg.payload.text } : p
+                        );
+                        break;
+
+                    case 'VOTE':
+                        newState.votes = { ...newState.votes, [msg.payload.voterId]: msg.payload.targetId };
+                        const activeVoters = newState.players.filter(p => !p.isHost && p.isApproved && p.isAlive);
+                        if (Object.keys(newState.votes).length >= activeVoters.length) {
+                             newState.timer = 0;
+                        }
+                        break;
+                }
+                broadcastState(newState);
+            };
+
+            const kickPlayer = (targetId) => {
+                 if (!gameState) return;
+                 const newState = {
+                     ...gameState,
+                     players: gameState.players.filter(p => p.id !== targetId)
+                 };
+                 const targetConn = connectionsRef.current.find(c => c.peer === targetId);
+                 if (targetConn) targetConn.send({ type: 'KICK' });
+                 broadcastState(newState);
+            };
+
+            const approvePlayer = (targetId) => {
+                if (!gameState) return;
+                const isLobby = gameState.phase === 'LOBBY';
+                
+                // Late Join Logic
+                let newRole = isLobby ? null : 'VILLAGER'; // Late joiners are villagers
+                let newWord = isLobby ? null : gameState.settings.villagerWord;
+                let newAlive = true;
+
+                const newState = {
+                    ...gameState,
+                    players: gameState.players.map(p => {
+                        if (p.id !== targetId) return p;
+                        return {
+                            ...p,
+                            isApproved: true,
+                            isAlive: newAlive, 
+                            role: newRole,
+                            word: newWord
+                        };
+                    })
+                };
+                broadcastState(newState);
+            };
+
+            const startRound = () => {
+                 if (!gameState) return;
+                 // Reset words for everyone alive
+                 const nextState = {
+                     ...gameState,
+                     phase: 'WORD_PHASE',
+                     timer: gameState.settings.timerDuration,
+                     eliminatedPlayerId: null,
+                     winner: null,
+                     votes: {},
+                     players: gameState.players.map(p => ({
+                         ...p,
+                         wordSubmitted: undefined,
+                         isWriting: false,
+                         draft: undefined
+                     }))
+                 };
+                 broadcastState(nextState);
+                 sfx.playStart();
+            };
+
+            useEffect(() => {
+                if (!isHost || !gameStateRef.current) return;
+
+                const timerId = setInterval(() => {
+                    const current = gameStateRef.current;
+                    if (!current) return; 
+
+                    if (current.phase === 'REVEAL') return;
+
+                    // UPDATED LOGIC: Allow timer to trigger transitions in ELIMINATION phase too (removed exclusion)
+                    if (current.timer <= 0 && current.phase !== 'LOBBY' && current.phase !== 'GAME_OVER') {
+                         let nextState = { ...current };
+
+                         if (current.phase === 'WORD_PHASE') {
+                            nextState.players = current.players.map(p => {
+                                if (!p.isHost && p.isApproved && p.isAlive && !p.wordSubmitted) {
+                                    return { ...p, wordSubmitted: 'Sin Comentarios', isWriting: false, draft: undefined };
+                                }
+                                return p;
+                            });
+                            nextState.phase = 'VOTE';
+                            nextState.timer = 60; 
+                         } else if (current.phase === 'VOTE') {
+                             processEndVoting(nextState);
+                             return; 
+                         } else if (current.phase === 'ELIMINATION') {
+                             // AUTO-ADVANCE: Elimination time is over, start next round automatically
+                             nextState.phase = 'WORD_PHASE';
+                             nextState.timer = current.settings.timerDuration;
+                             nextState.eliminatedPlayerId = null;
+                             nextState.votes = {};
+                             nextState.players = current.players.map(p => ({
+                                 ...p,
+                                 wordSubmitted: undefined,
+                                 isWriting: false,
+                                 draft: undefined
+                             }));
+                             sfx.playStart();
+                         }
+                         broadcastState(nextState);
+                         return;
+                    }
+
+                    if (current.timer > 0) {
+                        const newTime = current.timer - 1;
+                        let nextState = { ...current, timer: newTime };
+                        broadcastState(nextState);
+                    }
+
+                }, 1000);
+                return () => clearInterval(timerId);
+            }, [isHost, gameState?.phase]);
+
+            const startGame = () => {
+                if (!gameState) return;
+                
+                let playingPlayers = gameState.players.filter(p => !p.isHost && p.isApproved);
+                const vampireCount = gameState.settings.vampireCount;
+                
+                for (let i = playingPlayers.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [playingPlayers[i], playingPlayers[j]] = [playingPlayers[j], playingPlayers[i]];
+                }
+
+                playingPlayers.forEach((p, idx) => {
+                    p.role = idx < vampireCount ? 'VAMPIRE' : 'VILLAGER';
+                    p.word = p.role === 'VILLAGER' ? gameState.settings.villagerWord : gameState.settings.vampireWord;
+                    p.wordSubmitted = undefined;
+                    p.isWriting = false;
+                    p.draft = undefined;
+                    p.isAlive = true;
+                });
+
+                const otherPlayers = gameState.players.filter(p => p.isHost || !p.isApproved);
+                const newPlayers = [...otherPlayers, ...playingPlayers];
+                
+                newPlayers.sort((a, b) => {
+                    if (a.isHost) return -1;
+                    if (b.isHost) return 1;
+                    if (a.isApproved && !b.isApproved) return -1;
+                    if (!a.isApproved && b.isApproved) return 1;
+                    return 0;
+                });
+
+                const next = {
+                    ...gameState,
+                    players: newPlayers,
+                    phase: 'REVEAL',
+                    timer: 0, 
+                    winner: null,
+                    eliminatedPlayerId: null,
+                    votes: {}
+                };
+                broadcastState(next);
+            };
+
+            const processEndVoting = (currentState) => {
+                const voteCounts = {};
+                Object.values(currentState.votes).forEach(targetId => {
+                    voteCounts[targetId] = (voteCounts[targetId] || 0) + 1;
+                });
+
+                let maxVotes = 0;
+                let candidateId = null;
+                let tie = false;
+
+                Object.entries(voteCounts).forEach(([id, count]) => {
+                    if (count > maxVotes) {
+                        maxVotes = count;
+                        candidateId = id;
+                        tie = false;
+                    } else if (count === maxVotes) {
+                        tie = true;
+                    }
+                });
+
+                let next = { ...currentState };
+
+                // Set timer for the Elimination view (10 seconds to read results before auto-next-round)
+                next.timer = 10;
+                next.phase = 'ELIMINATION';
+
+                if (candidateId && !tie) {
+                    // Eliminate player
+                    next.eliminatedPlayerId = candidateId;
+                    next.players = next.players.map(p => p.id === candidateId ? { ...p, isAlive: false } : p);
+                    
+                    // Check Win Conditions
+                    const activePlayers = next.players.filter(p => p.isApproved && !p.isHost);
+                    const aliveVampires = activePlayers.filter(p => p.isAlive && p.role === 'VAMPIRE').length;
+                    const aliveVillagers = activePlayers.filter(p => p.isAlive && p.role === 'VILLAGER').length;
+
+                    if (aliveVampires === 0) {
+                        next.winner = 'VILLAGER';
+                        next.phase = 'GAME_OVER';
+                        next.timer = 0; // Stop auto-advance if game over
+                    } else if (aliveVampires >= aliveVillagers) {
+                        next.winner = 'VAMPIRE';
+                        next.phase = 'GAME_OVER';
+                        next.timer = 0; // Stop auto-advance if game over
+                    }
+                } else {
+                    next.eliminatedPlayerId = null;
+                     // TIE: Stays in ELIMINATION phase for 10s, then loop catches it to restart round
+                }
+                broadcastState(next);
+            };
+
+            const endVotingManual = () => {
+                if (!gameState) return;
+                processEndVoting(gameState);
+            };
+
+            const nextRound = () => {
+                if (!gameState) return;
+
+                // Manual trigger fallback (mostly for Game Over restart)
+                if (gameState.phase === 'GAME_OVER') {
+                    const next = {
+                        ...gameState,
+                        phase: 'LOBBY',
+                        timer: 0,
+                        winner: null,
+                        eliminatedPlayerId: null,
+                        votes: {},
+                        players: gameState.players.map(p => ({
+                            ...p, 
+                            role: p.isHost ? 'MASTER' : null, 
+                            word: null, 
+                            wordSubmitted: undefined, 
+                            isAlive: true, 
+                            isApproved: p.isApproved,
+                            isWriting: false,
+                            draft: undefined
+                        }))
+                    };
+                    broadcastState(next);
+                } else {
+                    startRound();
+                }
+            };
+
+            const sendAction = (type, payload) => {
+                if (isHost) {
+                    handleHostMessage({ type, payload: { ...payload, id: peerId } }, null);
+                } else {
+                    if (connRef.current) {
+                        connRef.current.send({ type, payload: { ...payload, id: peerId } });
+                    }
+                }
+            };
+
+            const getMyPlayer = () => gameState?.players.find(p => p.id === peerId);
+
+            // --- VIEWS ---
+
+            const renderLimbo = () => (
+                <div className="flex flex-col items-center justify-center gap-6 animate-fade-in text-center p-8">
+                    <h2 className="text-3xl font-cinzel text-ink">En el Limbo</h2>
+                    <div className="text-6xl animate-pulse">⌛</div>
+                    <p className="font-crimson text-xl text-ink-light max-w-md">
+                        Has llegado a las puertas de la aldea. El Narrador debe permitirte la entrada...
+                    </p>
+                </div>
+            );
+
+            const renderAdminControls = () => {
+                if (!isHost) return null;
+                const pendingPlayers = gameState?.players.filter(p => !p.isApproved && !p.isHost) || [];
+                
+                // ADDED PX-8 (32px padding) to prevent text touching edges
+                return (
+                    <>
+                        <div className="fixed top-0 left-0 right-0 h-20 bg-ink text-white z-50 shadow-xl border-b-4 border-blood flex items-center justify-between px-8 w-full">
+                            <div className="flex flex-col cursor-pointer group" onClick={() => { sfx.playClick(); setShowLargeCode(true); }}>
+                                <span className="text-xs font-bold uppercase tracking-widest text-white opacity-60 group-hover:opacity-100 transition-opacity">Código del Ritual (Ver)</span>
+                                <div className="text-4xl font-cinzel font-black tracking-widest text-white drop-shadow-md group-hover:scale-105 transition-transform">
+                                    {gameState?.roomCode}
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-4">
+                                <div className="relative">
+                                    <button 
+                                        onClick={() => { sfx.playClick(); setShowAudioPanel(!showAudioPanel); }}
+                                        className="text-white hover:text-blood text-2xl transition-colors cursor-pointer"
+                                        title="Control de Música"
+                                    >
+                                        🎵
+                                    </button>
+                                    
+                                    {showAudioPanel && (
+                                        <div className="absolute top-10 right-0 bg-white border-2 border-ink p-4 rounded shadow-2xl z-50 animate-fade-in" style={{ width: '250px' }}>
+                                            <h4 className="font-cinzel font-bold text-ink mb-2 border-b border-ink pb-1">Ambiente Sonoro</h4>
+                                            <audio ref={audioRef} src={`./audio/${currentTrack}`} loop />
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex items-center gap-2">
+                                                    <button 
+                                                        onClick={() => { sfx.playClick(); setIsPlaying(!isPlaying); }}
+                                                        className="bg-ink text-white w-8 h-8 rounded-full flex items-center justify-center font-bold cursor-pointer hover:bg-ink-light"
+                                                    >
+                                                        {isPlaying ? '⏸' : '▶'}
+                                                    </button>
+                                                    <select 
+                                                        value={currentTrack} 
+                                                        onChange={(e) => { setCurrentTrack(e.target.value); setIsPlaying(true); }}
+                                                        className="bg-parchment text-ink text-xs p-1 rounded border border-ink cursor-pointer flex-1"
+                                                    >
+                                                        {AUDIO_TRACKS.map(track => (
+                                                            <option key={track} value={track}>{track.replace('.mp3', '')}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-xs text-ink-light">Vol:</span>
+                                                    <input 
+                                                        type="range" 
+                                                        min="0" max="1" step="0.1" 
+                                                        value={volume} 
+                                                        onChange={(e) => setVolume(parseFloat(e.target.value))}
+                                                        className="w-full cursor-pointer accent-blood"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="hidden md:block font-crimson italic text-white opacity-50 text-sm border-l border-white/20 pl-4">
+                                    Panel del Narrador
+                                </div>
+                            </div>
+                        </div>
+
+                        {showLargeCode && (
+                            <Modal isOpen={showLargeCode} onClose={() => setShowLargeCode(false)}>
+                                <div className="flex flex-col items-center justify-center gap-4 py-8">
+                                    <h2 className="text-2xl font-cinzel text-ink font-bold uppercase">Código del Ritual</h2>
+                                    <div className="text-9xl font-cinzel font-black text-blood tracking-widest animate-pulse">
+                                        {gameState?.roomCode}
+                                    </div>
+                                    <p className="text-ink-light text-sm italic">Comparte este código con los aldeanos</p>
+                                </div>
+                            </Modal>
+                        )}
+
+                        <div style={{ height: '6rem', width: '100%' }}></div>
+
+                        {pendingPlayers.length > 0 && (
+                            <div className="fixed bottom-4 left-4 z-50 animate-fade-in" style={{ width: '16rem' }}>
+                                <Card className="border-blood bg-white shadow-xl">
+                                    <h3 className="font-cinzel text-sm text-blood font-bold mb-2 flex items-center gap-2">
+                                        <span className="animate-pulse">●</span> Limbo ({pendingPlayers.length})
+                                    </h3>
+                                    <div className="overflow-y-auto space-y-2" style={{ maxHeight: '10rem' }}>
+                                        {pendingPlayers.map(p => (
+                                            <div key={p.id} className="flex items-center justify-between text-xs bg-parchment p-2 rounded">
+                                                <div className="flex items-center gap-2">
+                                                    <span>{p.avatar}</span>
+                                                    <span className="font-bold">{p.name}</span>
+                                                </div>
+                                                <div className="flex gap-1">
+                                                    <button onClick={() => { sfx.playSuccess(); approvePlayer(p.id); }} className="text-white bg-green-600 p-1 rounded cursor-pointer" style={{backgroundColor: '#16a34a'}}>✔</button>
+                                                    <button onClick={() => { sfx.playKick(); kickPlayer(p.id); }} className="text-white bg-red-600 p-1 rounded cursor-pointer" style={{backgroundColor: '#dc2626'}}>✖</button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </Card>
+                            </div>
+                        )}
+                    </>
+                );
+            };
+
+            const renderLobby = () => (
+                <div className="flex flex-col gap-6 w-full max-w-5xl animate-fade-in p-4">
+                    <h1 className="text-5xl font-cinzel text-ink text-center tracking-wide">Cacería de Vampiros</h1>
+                    
+                    {!isHost && (
+                        <div className="text-center font-crimson text-ink-light">
+                            Código de Sala: <span className="font-bold text-3xl tracking-widest text-ink block mt-1">{gameState?.roomCode}</span>
+                        </div>
+                    )}
+                    
+                    <Card className="flex flex-col gap-4" style={{ minHeight: '400px' }}>
+                        <h2 className="font-cinzel border-b border-ink p-2 flex justify-between">
+                            <span>Aldeanos Presentes</span>
+                            <span>{gameState?.players.filter(p => p.isApproved && !p.isHost).length}</span>
+                        </h2>
+                        
+                        <div className="flex flex-wrap gap-4 justify-center p-4 overflow-y-auto max-h-[50vh]">
+                            {gameState?.players.filter(p => p.isApproved && !p.isHost).map(p => (
+                                <div key={p.id} className="relative group flex flex-col items-center p-2 rounded hover:bg-parchment-dim transition-all">
+                                    <Avatar char={p.avatar} size="lg" className="w-20 h-20 text-5xl" /> 
+                                    <span className="text-sm mt-2 text-ink font-bold uppercase tracking-wide text-center" style={{ maxWidth: '80px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
+                                    {isHost && (
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); sfx.playKick(); kickPlayer(p.id); }}
+                                            className="absolute top-0 right-0 bg-white text-blood border border-blood rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-all hover:bg-blood hover:text-white cursor-pointer font-bold"
+                                        >
+                                            ✕
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </Card>
+
+                    {isHost && (
+                        <Card>
+                            <h3 className="font-cinzel text-sm mb-4 bg-ink text-white p-1 px-2 inline-block rounded-sm">Grimorio (Ajustes)</h3>
+                            <div className="font-crimson text-sm text-ink font-bold">
+                                
+                                <div className="md:grid-cols-2 gap-4" style={{ display: 'grid' }}>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-xs uppercase text-ink-light">Palabra Aldeano</label>
+                                        <div className="relative">
+                                            <input 
+                                                type={showVillagerWord ? "text" : "password"}
+                                                className="bg-white border-2 border-ink px-3 py-2 rounded-sm w-full text-center tracking-wider" 
+                                                value={gameState?.settings.villagerWord} 
+                                                onChange={(e) => setGameState(prev => prev ? ({...prev, settings: {...prev.settings, villagerWord: e.target.value}}) : null)} 
+                                            />
+                                            <button 
+                                                onClick={() => { sfx.playClick(); setShowVillagerWord(!showVillagerWord); }}
+                                                className="absolute cursor-pointer text-xl" style={{ right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none' }}
+                                            >
+                                                {showVillagerWord ? "👁️" : "🔒"}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-xs uppercase text-ink-light">Palabra Vampiro</label>
+                                        <div className="relative">
+                                            <input 
+                                                type={showVampireWord ? "text" : "password"}
+                                                className="bg-white border-2 border-ink px-3 py-2 rounded-sm w-full text-center tracking-wider"
+                                                value={gameState?.settings.vampireWord} 
+                                                onChange={(e) => setGameState(prev => prev ? ({...prev, settings: {...prev.settings, vampireWord: e.target.value}}) : null)} 
+                                            />
+                                            <button 
+                                                onClick={() => { sfx.playClick(); setShowVampireWord(!showVampireWord); }}
+                                                className="absolute cursor-pointer text-xl" style={{ right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none' }}
+                                            >
+                                                 {showVampireWord ? "👁️" : "🔒"}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-4 bg-parchment-dim p-2 rounded mt-4">
+                                    <label>Número de Vampiros:</label>
+                                    <input type="number" className="bg-white border-2 border-ink px-2 py-1 rounded w-16 text-center font-bold"
+                                        min="1"
+                                        value={gameState?.settings.vampireCount} 
+                                        onChange={(e) => setGameState(prev => prev ? ({...prev, settings: {...prev.settings, vampireCount: parseInt(e.target.value)}}) : null)} />
+                                </div>
+                            </div>
+                        </Card>
+                    )}
+
+                    {isHost ? (
+                        <Button onClick={startGame} className="w-full py-4 text-xl shadow-lg hover:scale-105">Cae la noche (Asignar Roles)</Button>
+                    ) : (
+                        <div className="text-center italic text-ink-light animate-pulse bg-white p-2 rounded border border-ink">Esperando la señal del Narrador...</div>
+                    )}
+                </div>
+            );
+
+            const renderReveal = () => {
+                const me = getMyPlayer();
+                const isMaster = me?.role === 'MASTER';
+                
+                return (
+                    <div className="flex flex-col items-center gap-8 animate-fade-in w-full max-w-5xl text-center p-4">
+                         {isMaster ? (
+                            <div className="flex flex-col items-center gap-6 p-10 bg-white border-2 border-ink rounded shadow-lg w-full">
+                                <div className="text-8xl text-ink animate-pulse">👁️</div>
+                                <h2 className="text-5xl font-cinzel text-ink">Roles Asignados</h2>
+                                <p className="text-2xl font-crimson text-ink-light italic mb-8">Los aldeanos investigan sus identidades...</p>
+                                <Button onClick={startRound} className="w-full py-4 text-xl animate-pulse">Comenzar Ronda de Palabras</Button>
+                            </div>
+                         ) : (
+                             <>
+                                <h2 className="text-4xl font-cinzel text-ink font-bold mb-4">Noche Cerrada</h2>
+                                <p className="text-xl font-crimson text-ink-light mb-8">Tu identidad está oculta en las sombras.</p>
+                                
+                                <Button onClick={() => setIsIdentityVisible(true)} className="py-4 px-8 text-xl shadow-xl">
+                                    Mostrar Identidad
+                                </Button>
+
+                                <Modal isOpen={isIdentityVisible} onClose={() => setIsIdentityVisible(false)}>
+                                    <div className="flex flex-col items-center gap-6 py-6">
+                                        <div className="text-8xl animate-heartbeat">
+                                            {me?.avatar}
+                                        </div>
+                                        <h2 className="text-4xl font-cinzel text-ink text-center">
+                                            Eres un <br/>
+                                            <span className={me?.role === 'VAMPIRE' ? "text-blood font-black" : "text-ink font-bold underline"}>
+                                                {getRoleDisplay(me?.role || null)}
+                                            </span>
+                                        </h2>
+                                        <div className="w-full bg-parchment-dim p-4 border-2 border-ink rounded text-center">
+                                            <p className="font-crimson text-ink-light mb-2 uppercase tracking-widest text-sm font-bold">Tu Palabra Secreta</p>
+                                            <p className="text-5xl font-cinzel text-ink font-black">{me?.word}</p>
+                                        </div>
+                                        <p className="text-xs text-ink-light italic">Memorízalo y cierra esta ventana.</p>
+                                    </div>
+                                </Modal>
+                             </>
+                         )}
+                    </div>
+                );
+            };
+
             const renderWordPhase = () => {
                 const me = getMyPlayer();
                 const submitted = me?.wordSubmitted;
@@ -132,7 +1545,7 @@
                                                 
                                                 {/* UPDATED VISUAL: Positioned Top-Right with transform to ensure it sticks out correctly */}
                                                 {votesReceived > 0 && (
-                                                    <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-blood text-white rounded-full w-8 h-8 flex items-center justify-center font-bold border-2 border-white shadow-md z-50 animate-bounce">
+                                                    <div className="absolute top-0 right-0 bg-blood text-white rounded-full w-8 h-8 flex items-center justify-center font-bold border-2 border-white shadow-md z-50 animate-bounce" style={{transform: 'translate(50%, -50%)'}}>
                                                         {votesReceived}
                                                     </div>
                                                 )}
@@ -227,3 +1640,132 @@
                     </div>
                 );
             };
+
+            // --- MAIN RENDER ---
+
+            const me = getMyPlayer();
+            const isInLimbo = peerId && gameState && !isHost && !me?.isApproved;
+
+            if (isInLimbo) {
+                return (
+                     <div className="min-h-screen flex items-center justify-center p-4">
+                        <Card className="w-full max-w-md bg-white shadow-2xl">
+                             {renderLimbo()}
+                             <div className="text-center mt-4">
+                                <span className="text-xs text-ink-light">ID: {peerId}</span>
+                             </div>
+                        </Card>
+                     </div>
+                );
+            }
+
+            if (!peerId) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <Card className="w-full max-w-5xl flex flex-col gap-6 animate-fade-in items-center bg-white shadow-2xl border-4 border-ink p-8">
+                            {isCreating ? (
+                                <div className="w-full max-w-md flex flex-col gap-6 items-center">
+                                    <h1 className="text-4xl font-cinzel text-ink font-black text-center">Configurar Ritual</h1>
+                                    <div className="text-center font-crimson text-ink-light italic text-lg p-4">
+                                        Como Narrador, observarás y controlarás el destino de la aldea, pero no participarás en la caza.
+                                    </div>
+                                    <Button onClick={createRoom} disabled={isLoading} className="mt-4 text-lg py-3 w-full">
+                                        {isLoading ? 'Convocando...' : 'Generar Código de Aldea'}
+                                    </Button>
+                                    <button 
+                                        onClick={() => setIsCreating(false)}
+                                        className="text-xs text-ink-light underline hover:text-ink mt-4 cursor-pointer"
+                                    >
+                                        Volver (Soy Aldeano)
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="w-full max-w-md flex flex-col gap-6">
+                                    <h1 className="text-5xl font-cinzel text-ink font-black text-center">Cacería de Vampiros</h1>
+                                    
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-xs font-crimson text-ink font-bold uppercase tracking-widest">Tu Nombre</label>
+                                        <input 
+                                            className="bg-parchment border-2 border-ink text-ink text-lg p-3 rounded-sm outline-none focus:border-blood placeholder-ink-light uppercase"
+                                            value={playerName}
+                                            onChange={(e) => setPlayerName(e.target.value.toUpperCase())}
+                                            placeholder="INGRESA NOMBRE..."
+                                            maxLength={20}
+                                        />
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                         <label className="text-xs font-crimson text-ink font-bold uppercase tracking-widest">Elige Avatar</label>
+                                         <div className="p-2 border-2 border-ink bg-parchment-dim rounded overflow-y-auto" style={{ maxHeight: '15rem', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+                                            {AVATARS.map(char => (
+                                                <button 
+                                                    key={char} 
+                                                    onClick={() => { sfx.playClick(); setPlayerAvatar(char); }}
+                                                    className={`text-6xl aspect-square flex items-center justify-center rounded-sm hover:bg-white hover:scale-105 border-2 transition-all cursor-pointer ${playerAvatar === char ? 'bg-ink border-ink shadow-lg' : 'bg-transparent border-transparent'}`}
+                                                >
+                                                    {char}
+                                                </button>
+                                            ))}
+                                         </div>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2 border-t-2 border-ink pt-4">
+                                        <label className="text-xs uppercase text-ink font-bold text-center">Código de la Aldea</label>
+                                        <input 
+                                            className="bg-parchment border-2 border-ink text-center uppercase p-4 rounded-sm tracking-widest text-3xl font-bold"
+                                            value={hostId}
+                                            onChange={(e) => setHostId(e.target.value)}
+                                            placeholder="0000"
+                                            maxLength={4}
+                                            type="tel" 
+                                        />
+                                    </div>
+
+                                    <Button onClick={joinRoom} disabled={isLoading} className="w-full text-xl py-4 shadow-lg hover:scale-105">
+                                        {isLoading ? 'Conectando...' : 'Unirse a la Aldea'}
+                                    </Button>
+                                    
+                                    <div className="mt-4 text-center">
+                                        <button 
+                                            onClick={() => setIsCreating(true)} 
+                                            className="text-xs text-ink-light hover:text-ink underline cursor-pointer"
+                                        >
+                                            ¿Eres el Maestro? Fundar nueva aldea
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {error && <div className="text-blood font-bold text-center text-sm bg-blood/10 border border-blood p-3 rounded w-full animate-fade-in">{error}</div>}
+                        </Card>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen flex flex-col items-center p-4 relative overflow-hidden bg-parchment">
+                    
+                    {renderAdminControls()}
+
+                    <div className="z-10 w-full flex justify-center flex-1 items-center">
+                        {gameState ? (
+                            <>
+                                {gameState.phase === 'LOBBY' && renderLobby()}
+                                {gameState.phase === 'REVEAL' && renderReveal()}
+                                {gameState.phase === 'WORD_PHASE' && renderWordPhase()}
+                                {gameState.phase === 'VOTE' && renderVote()}
+                                {(gameState.phase === 'ELIMINATION' || gameState.phase === 'GAME_OVER') && renderElimination()}
+                            </>
+                        ) : (
+                            <div className="animate-pulse text-ink font-cinzel text-xl">Contactando con el Narrador...</div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
