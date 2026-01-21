@@ -70,6 +70,8 @@
         .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+        .grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
         
         .w-full { width: 100%; }
         .h-full { height: 100%; }
@@ -92,6 +94,9 @@
         .z-20 { z-index: 20; }
         .z-50 { z-index: 50; }
         .z-100 { z-index: 100; }
+        .z-\[100\] { z-index: 100; }
+        .z-\[150\] { z-index: 150; }
+        .z-\[200\] { z-index: 200; }
 
         .p-1 { padding: 0.25rem; }
         .p-2 { padding: 0.5rem; }
@@ -163,57 +168,87 @@
         .bg-ink { background-color: var(--c-ink); }
         .bg-blood { background-color: var(--c-blood); }
         .bg-transparent { background-color: transparent; }
+        .bg-black\/90 { background-color: rgba(0, 0, 0, 0.9); }
+        .bg-black\/80 { background-color: rgba(0, 0, 0, 0.8); }
+        .bg-black\/50 { background-color: rgba(0, 0, 0, 0.5); }
+        .bg-gray-500\/20 { background-color: rgba(107, 114, 128, 0.2); }
+        .bg-blood\/10 { background-color: rgba(185, 28, 28, 0.1); }
         
         .text-white { color: var(--c-white); }
         .text-ink { color: var(--c-ink); }
         .text-ink-light { color: var(--c-ink-light); }
         .text-blood { color: var(--c-blood); }
+        .text-red-600 { color: #dc2626; }
         
         .border { border: 1px solid var(--c-ink); }
         .border-2 { border: 2px solid var(--c-ink); }
         .border-4 { border: 4px solid var(--c-ink); }
         .border-t { border-top: 1px solid var(--c-ink); }
         .border-t-2 { border-top: 2px solid var(--c-ink); }
+        .border-t-4 { border-top: 4px solid var(--c-ink); }
         .border-b { border-bottom: 1px solid var(--c-ink); }
         .border-b-2 { border-bottom: 2px solid var(--c-ink); }
+        .border-b-4 { border-bottom: 4px solid var(--c-ink); }
+        .border-l { border-left: 1px solid var(--c-ink); }
+        .border-l-2 { border-left: 2px solid var(--c-ink); }
         
         .border-ink { border-color: var(--c-ink); }
+        .border-ink\/20 { border-color: rgba(26, 26, 26, 0.2); }
         .border-blood { border-color: var(--c-blood); }
+        .border-red-600 { border-color: #dc2626; }
         .border-transparent { border-color: transparent; }
+        .border-white { border-color: white; }
+        .border-white\/20 { border-color: rgba(255, 255, 255, 0.2); }
         
         .rounded { border-radius: 0.25rem; }
         .rounded-sm { border-radius: 0.125rem; }
         .rounded-full { border-radius: 9999px; }
+        .rounded-b { border-radius: 0 0 0.25rem 0.25rem; }
         
         .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .shadow-\[0_0_50px_rgba\(185\,28\,28\,0\.5\)\] { box-shadow: 0 0 50px rgba(185, 28, 28, 0.5); }
 
         .opacity-0 { opacity: 0; }
         .opacity-10 { opacity: 0.1; }
         .opacity-50 { opacity: 0.5; }
         .opacity-60 { opacity: 0.6; }
         .opacity-80 { opacity: 0.8; }
+        .opacity-90 { opacity: 0.9; }
         .opacity-100 { opacity: 1; }
         
         .cursor-pointer { cursor: pointer; }
         .cursor-not-allowed { cursor: not-allowed; }
+        .cursor-default { cursor: default; }
+        .pointer-events-none { pointer-events: none; }
         .grayscale { filter: grayscale(100%); }
         .overflow-visible { overflow: visible; }
+        .overflow-hidden { overflow: hidden; }
+        .backdrop-blur-sm { backdrop-filter: blur(4px); }
+        .backdrop-blur-md { backdrop-filter: blur(12px); }
+        .backdrop-contrast-125 { backdrop-filter: contrast(1.25); }
+        .mix-blend-multiply { mix-blend-mode: multiply; }
 
         .group:hover .group-hover\:opacity-100 { opacity: 1; }
+        .group:hover .group-hover\:scale-105 { transform: scale(1.05); }
         .hover\:bg-white:hover { background-color: var(--c-white); }
         .hover\:bg-ink-light:hover { background-color: var(--c-ink-light); }
         .hover\:bg-blood:hover { background-color: var(--c-blood); }
+        .hover\:bg-blood-light:hover { background-color: var(--c-blood-light); }
         .hover\:bg-parchment-dim:hover { background-color: var(--c-parchment-dim); }
         .hover\:text-ink:hover { color: var(--c-ink); }
         .hover\:text-white:hover { color: var(--c-white); }
+        .hover\:text-blood:hover { color: var(--c-blood); }
         .hover\:scale-105:hover { transform: scale(1.05); }
+        .hover\:scale-110:hover { transform: scale(1.1); }
         .active\:scale-95:active { transform: scale(0.95); }
         .transition-all { transition: all 0.2s ease-in-out; }
         .transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
         .transition-opacity { transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
 
         .gothic-border {
             border: 2px solid var(--c-ink);
@@ -266,8 +301,15 @@
             .md\:grid-cols-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
             .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .md\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+            .md\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
             .md\:block { display: block; }
             .md\:inline { display: inline; }
+            .md\:flex-row { flex-direction: row; }
+            .md\:w-16 { width: 4rem; }
+            .md\:h-16 { height: 4rem; }
+            .md\:text-4xl { font-size: 2.25rem; }
+            .md\:text-xs { font-size: 0.75rem; }
         }
 
         .overflow-y-auto { overflow-y: auto; }
@@ -275,9 +317,15 @@
         .max-h-\[50vh\] { max-height: 50vh; }
         .max-h-\[60vh\] { max-height: 60vh; }
         .max-h-\[80vh\] { max-height: 80vh; }
+        .max-h-\[90vh\] { max-height: 90vh; }
+        .min-h-0 { min-height: 0; }
         
         .shrink-0 { flex-shrink: 0; }
+        .filter { filter: var(--tw-filter); }
+        .drop-shadow-lg { --tw-drop-shadow: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1)); filter: var(--tw-drop-shadow); }
+        .drop-shadow-md { filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)); }
     </style>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div id="root"></div>
@@ -507,7 +555,7 @@
         const Modal = ({ isOpen, onClose, children }) => {
             if (!isOpen) return null;
             return (
-                <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <div className="relative w-full max-w-md">
                         <Card className="bg-white shadow-2xl border-4 border-ink">
                             {children}
@@ -992,18 +1040,26 @@
                              processEndVoting(nextState);
                              return; 
                          } else if (current.phase === 'ELIMINATION') {
-                             // AUTO-ADVANCE: Elimination time is over, start next round automatically
-                             nextState.phase = 'WORD_PHASE';
-                             nextState.timer = current.settings.timerDuration;
-                             nextState.eliminatedPlayerId = null;
-                             nextState.votes = {};
-                             nextState.players = current.players.map(p => ({
-                                 ...p,
-                                 wordSubmitted: undefined,
-                                 isWriting: false,
-                                 draft: undefined
-                             }));
-                             sfx.playStart();
+                             // AUTO-ADVANCE LOGIC
+                             
+                             // Si hay un ganador definido, pasamos a GAME_OVER después de mostrar la eliminación
+                             if (current.winner) {
+                                 nextState.phase = 'GAME_OVER';
+                                 nextState.timer = 0;
+                             } else {
+                                 // Si no hay ganador, seguimos a la siguiente ronda
+                                 nextState.phase = 'WORD_PHASE';
+                                 nextState.timer = current.settings.timerDuration;
+                                 nextState.eliminatedPlayerId = null;
+                                 nextState.votes = {};
+                                 nextState.players = current.players.map(p => ({
+                                     ...p,
+                                     wordSubmitted: undefined,
+                                     isWriting: false,
+                                     draft: undefined
+                                 }));
+                                 sfx.playStart();
+                             }
                          }
                          broadcastState(nextState);
                          return;
@@ -1025,6 +1081,7 @@
                 let playingPlayers = gameState.players.filter(p => !p.isHost && p.isApproved);
                 const vampireCount = gameState.settings.vampireCount;
                 
+                // 1. MEZCLA PARA ASIGNAR ROLES (Decidir QUIÉN es vampiro)
                 for (let i = playingPlayers.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [playingPlayers[i], playingPlayers[j]] = [playingPlayers[j], playingPlayers[i]];
@@ -1039,9 +1096,17 @@
                     p.isAlive = true;
                 });
 
+                // 2. MEZCLA VISUAL (Para que el Vampiro no sea siempre el primero de la lista)
+                // Como asignamos roles por índice (0..N), si no mezclamos de nuevo, los vampiros quedarían al principio.
+                for (let i = playingPlayers.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [playingPlayers[i], playingPlayers[j]] = [playingPlayers[j], playingPlayers[i]];
+                }
+
                 const otherPlayers = gameState.players.filter(p => p.isHost || !p.isApproved);
                 const newPlayers = [...otherPlayers, ...playingPlayers];
                 
+                // El sort final solo ordena por Host/Approved, respetando el orden aleatorio interno de los Approved
                 newPlayers.sort((a, b) => {
                     if (a.isHost) return -1;
                     if (b.isHost) return 1;
@@ -1098,14 +1163,13 @@
                     const aliveVampires = activePlayers.filter(p => p.isAlive && p.role === 'VAMPIRE').length;
                     const aliveVillagers = activePlayers.filter(p => p.isAlive && p.role === 'VILLAGER').length;
 
+                    // Si alguien gana, establecemos el ganador PERO mantenemos la fase en ELIMINATION
+                    // para mostrar la animación de muerte del último jugador.
+                    // El timer loop se encargará de pasar a GAME_OVER cuando acaben los 10s.
                     if (aliveVampires === 0) {
                         next.winner = 'VILLAGER';
-                        next.phase = 'GAME_OVER';
-                        next.timer = 0; // Stop auto-advance if game over
                     } else if (aliveVampires >= aliveVillagers) {
                         next.winner = 'VAMPIRE';
-                        next.phase = 'GAME_OVER';
-                        next.timer = 0; // Stop auto-advance if game over
                     }
                 } else {
                     next.eliminatedPlayerId = null;
@@ -1475,16 +1539,20 @@
                                             <Avatar char={p.avatar} size="sm" dead={!p.isAlive} />
                                             <div className="text-xs text-ink font-bold uppercase tracking-wide truncate flex-1">{p.name}</div>
                                         </div>
-                                        <div className="font-crimson text-sm italic text-ink mt-2 pl-1 border-l-2 border-parchment-dark h-8 flex items-center">
+                                        <div className="mt-2 h-8 flex items-center justify-center w-full">
                                             {!p.isAlive ? (
                                                 <span className="text-blood font-bold text-xs uppercase tracking-widest">☠️ Sacrificado</span>
-                                            ) : p.wordSubmitted ? `"${p.wordSubmitted}"` : (
+                                            ) : p.wordSubmitted ? (
+                                                <span className="text-sm font-bold text-ink font-crimson">
+                                                    "{p.wordSubmitted}"
+                                                </span>
+                                            ) : (
                                                 p.isWriting ? (
-                                                    <span className="text-blood flex items-center gap-1 text-xs">
+                                                    <span className="text-xs text-ink-light font-crimson italic flex items-center gap-1">
                                                         <span className="animate-bounce">✍️</span> 
-                                                        {p.draft ? <span className="font-bold animate-pulse truncate">{p.draft}</span> : "..."}
+                                                        {p.draft ? <span className="font-crimson italic text-ink truncate">{p.draft}</span> : "Escribiendo..."}
                                                     </span>
-                                                ) : <span className="text-xs opacity-50">Pensando...</span>
+                                                ) : <span className="text-xs opacity-50 font-crimson italic">Pensando...</span>
                                             )}
                                         </div>
                                         {isHost && (
@@ -1533,48 +1601,52 @@
                 const activePlayers = gameState?.players.filter(p => p.isApproved && !p.isHost) || [];
 
                 return (
-                    <div className="flex flex-col gap-6 w-full max-w-5xl animate-fade-in h-screen p-4" style={{ maxHeight: '90vh' }}>
-                        <div className="flex justify-between items-center shrink-0">
-                            <h2 className="text-3xl font-cinzel text-center text-ink font-black flex-1">El Juicio</h2>
-                            <div className={`font-cinzel text-3xl font-black ${gameState?.timer && gameState.timer < 10 ? 'text-blood animate-pulse' : 'text-ink'}`}>
+                    <div className="flex flex-col gap-2 w-full max-w-5xl animate-fade-in h-screen p-2" style={{ maxHeight: '90vh' }}>
+                        {/* Header Compacto para dar más espacio a los iconos */}
+                        <div className="flex justify-between items-center shrink-0 border-b border-ink/20 pb-2">
+                            <div className="flex flex-col items-start">
+                                <h2 className="text-xl font-cinzel text-ink font-black uppercase tracking-wide">El Juicio</h2>
+                                <p className="font-crimson text-ink-light text-xs italic">¿Quién es el Vampiro?</p>
+                            </div>
+                            <div className={`font-cinzel text-2xl font-black ${gameState?.timer && gameState.timer < 10 ? 'text-blood animate-pulse' : 'text-ink'}`}>
                                 {gameState?.timer}s
                             </div>
                         </div>
-                        <p className="text-center font-crimson text-ink-light text-lg shrink-0">¿Quién es el Vampiro?</p>
                         
-                        <div className="flex-1 overflow-y-auto min-h-0 border-2 border-ink rounded bg-parchment-dim p-4">
-                            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                        {/* Area de Grid Expandida */}
+                        <div className="flex-1 overflow-y-auto min-h-0 border-2 border-ink rounded bg-parchment-dim p-2">
+                            <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
                                 {activePlayers.filter(p => p.isAlive).map(p => {
                                     const votesReceived = Object.values(gameState?.votes || {}).filter(target => target === p.id).length;
                                     return (
-                                        <div key={p.id} className="relative flex flex-col items-center group overflow-visible" style={{ minWidth: '0' }}>
+                                        <div key={p.id} className="relative flex flex-col items-center group overflow-visible p-1" style={{ minWidth: '0' }}>
                                             <button 
                                                 onClick={() => me?.isAlive && !isMaster && sendAction('VOTE', { voterId: peerId, targetId: p.id })}
                                                 className={`relative outline-none transition-all cursor-pointer ${isMaster ? 'cursor-default' : 'active:scale-95'}`}
                                                 disabled={isMaster}
                                                 style={{ background: 'none', border: 'none' }}
                                             >
-                                                <Avatar char={p.avatar} size="md" selected={myVote === p.id} />
+                                                <Avatar char={p.avatar} size="md" selected={myVote === p.id} className="w-12 h-12 text-3xl md:w-16 md:h-16 md:text-4xl" />
                                                 
-                                                {/* UPDATED VISUAL: Positioned Top-Right with transform to ensure it sticks out correctly */}
                                                 {votesReceived > 0 && (
-                                                    <div className="absolute top-0 right-0 bg-blood text-white rounded-full w-8 h-8 flex items-center justify-center font-bold border-2 border-white shadow-md z-50 animate-bounce" style={{transform: 'translate(50%, -50%)'}}>
+                                                    <div className="absolute top-0 right-0 bg-blood text-white rounded-full w-6 h-6 text-xs flex items-center justify-center font-bold border border-white shadow-md z-50 animate-bounce" style={{transform: 'translate(30%, -30%)'}}>
                                                         {votesReceived}
                                                     </div>
                                                 )}
 
                                             </button>
-                                            <div className="bg-white border border-ink px-2 py-1 mt-2 rounded shadow-sm text-center w-full z-10 overflow-hidden">
-                                                <span className="text-xs font-bold block truncate">{p.name}</span>
-                                                {p.wordSubmitted && <span className="text-xs italic text-ink-light block truncate">"{p.wordSubmitted}"</span>}
+                                            <div className="bg-white border border-ink px-1 mt-1 rounded shadow-sm text-center w-full z-10 overflow-hidden" style={{maxWidth: '100%'}}>
+                                                <span className="text-[10px] md:text-xs font-bold block truncate leading-tight">{p.name}</span>
+                                                {p.wordSubmitted && <span className="text-[10px] italic text-ink-light block truncate leading-tight">"{p.wordSubmitted}"</span>}
                                             </div>
                                             
                                             {isHost && (
                                                 <button 
                                                     onClick={() => { sfx.playKick(); kickPlayer(p.id); }}
-                                                    className="mt-1 text-xs text-red-600 hover:underline opacity-0 group-hover:opacity-100 cursor-pointer"
+                                                    className="absolute -top-1 -right-1 text-xs text-red-600 bg-white rounded-full border border-red-600 w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer z-20 hover:scale-110 shadow-sm"
+                                                    title="Expulsar Jugador"
                                                 >
-                                                    Expulsar
+                                                    ✕
                                                 </button>
                                             )}
                                         </div>
@@ -1584,7 +1656,7 @@
                         </div>
 
                         {isHost && (
-                            <Button onClick={endVotingManual} className="w-full animate-pulse py-4 text-xl bg-blood border-blood shrink-0" variant="danger">Ejecutar Veredicto (Forzar)</Button>
+                            <Button onClick={endVotingManual} className="w-full animate-pulse py-3 text-lg bg-blood border-blood shrink-0" variant="danger">Ejecutar Veredicto</Button>
                         )}
                     </div>
                 );
@@ -1594,78 +1666,108 @@
                 const eliminated = gameState?.players.find(p => p.id === gameState.eliminatedPlayerId);
                 const winner = gameState?.winner;
                 const isGameOver = gameState?.phase === 'GAME_OVER';
+                const me = getMyPlayer();
+                const amIEliminated = eliminated?.id === peerId;
 
-                return (
-                    <div className="flex flex-col items-center w-full max-w-5xl animate-fade-in text-center h-full p-4 overflow-y-auto">
-                        
-                        {/* 1. INFORMACIÓN DEL JUGADOR ELIMINADO (Si hubo sacrificio) */}
-                        {eliminated && (
-                            <div className="flex flex-col items-center gap-2 mb-6 animate-fade-in shrink-0">
-                                <div className="text-8xl relative">
-                                    {eliminated.avatar}
-                                    <div className="absolute inset-0 flex items-center justify-center text-blood opacity-80 animate-slash" style={{ fontSize: '120%' }}>/</div>
-                                </div>
-                                <h2 className="text-4xl font-cinzel text-ink font-black uppercase tracking-wide leading-tight">{eliminated.name}</h2>
-                                <p className="text-xl font-crimson text-blood font-bold italic">Ha sido sacrificado</p>
-                                
-                                <Card className="mt-2 bg-white border-4 border-ink p-4 min-w-[200px] shadow-lg">
-                                    <p className="text-ink-light text-xs uppercase tracking-widest mb-1">Su verdadera identidad era</p>
-                                    <p className={`text-4xl font-black ${eliminated.role === 'VAMPIRE' ? 'text-blood' : 'text-ink'}`}>
-                                        {getRoleDisplay(eliminated.role)}
-                                    </p>
-                                </Card>
-                            </div>
-                        )}
+                // --- PANTALLA FINAL (GAME OVER) ---
+                if (isGameOver) {
+                    return (
+                        <div className="flex flex-col items-center justify-center w-full max-w-5xl h-full p-4 animate-fade-in">
+                            <Card className="w-full max-w-lg bg-white shadow-2xl border-4 border-ink p-8 text-center relative overflow-hidden">
+                                {/* Decoración de fondo sutil */}
+                                <div className="absolute top-0 left-0 w-full h-2 bg-ink"></div>
+                                <div className="absolute bottom-0 left-0 w-full h-2 bg-ink"></div>
 
-                        {/* 2. MENSAJE SI NADIE FUE ELIMINADO (Solo si no es Game Over) */}
-                        {!eliminated && !isGameOver && (
-                            <div className="flex flex-col gap-4 items-center justify-center flex-1">
-                                <h2 className="text-4xl font-cinzel text-ink-light italic">La aldea no pudo decidir...</h2>
-                                <div className="text-6xl animate-pulse">⏳</div>
-                                <p className="font-crimson font-bold text-ink">Nadie murió esta noche.</p>
-                            </div>
-                        )}
-
-                        {/* 3. PANTALLA DE VICTORIA (Visible debajo del eliminado si es Game Over) */}
-                        {isGameOver && (
-                            <div className="flex flex-col items-center gap-4 w-full animate-fade-in shrink-0 pb-8">
-                                {/* Separador visual sutil */}
-                                {eliminated && <div className="w-24 h-1 bg-ink opacity-10 my-4 rounded"></div>}
-
-                                <h1 className="text-5xl font-cinzel text-ink animate-bounce font-black leading-tight">
+                                <h1 className="text-5xl font-cinzel text-ink font-black animate-bounce mb-6 leading-tight">
                                     {winner === 'VAMPIRE' ? <span className="text-blood">LOS VAMPIROS</span> : <span className="text-ink">LOS ALDEANOS</span>} GANAN
                                 </h1>
-                                <div className="text-9xl animate-spin my-2">
+                                
+                                <div className="text-9xl animate-spin my-6 filter drop-shadow-lg">
                                     {winner === 'VAMPIRE' ? '🦇' : '☀️'}
                                 </div>
                                 
-                                <div className="flex gap-4 w-full max-w-lg justify-center mt-2">
-                                    <div className="bg-white border-2 border-ink p-3 rounded text-center flex-1 shadow-sm">
-                                        <div className="text-xs uppercase font-bold text-ink-light">Palabra Aldeano</div>
-                                        <div className="text-lg font-cinzel font-bold text-ink">{gameState.settings.villagerWord}</div>
+                                <div className="flex flex-col md:flex-row gap-4 w-full justify-center mt-6">
+                                    <div className="bg-parchment border-2 border-ink p-4 rounded text-center flex-1 shadow-sm">
+                                        <div className="text-xs uppercase font-bold text-ink-light tracking-widest mb-1">Palabra Aldeano</div>
+                                        <div className="text-2xl font-cinzel font-bold text-ink">{gameState.settings.villagerWord}</div>
                                     </div>
-                                    <div className="bg-white border-2 border-ink p-3 rounded text-center flex-1 shadow-sm">
-                                        <div className="text-xs uppercase font-bold text-ink-light">Palabra Vampiro</div>
-                                        <div className="text-lg font-cinzel font-bold text-blood">{gameState.settings.vampireWord}</div>
+                                    <div className="bg-parchment border-2 border-ink p-4 rounded text-center flex-1 shadow-sm">
+                                        <div className="text-xs uppercase font-bold text-ink-light tracking-widest mb-1">Palabra Vampiro</div>
+                                        <div className="text-2xl font-cinzel font-bold text-blood">{gameState.settings.vampireWord}</div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
 
-                        {/* 4. TEMPORIZADOR PARA SIGUIENTE RONDA (Si no es Game Over) */}
-                        {!isGameOver && (
-                            <div className="mt-auto mb-8 font-cinzel font-bold text-ink-light animate-pulse text-xl">
-                                Siguiente ronda en {gameState?.timer}s...
-                            </div>
-                        )}
+                                {isHost && (
+                                    <div className="mt-8 pt-4 border-t border-ink-light/20">
+                                        <Button onClick={nextRound} className="w-full py-3 text-lg shadow-lg hover:scale-105">
+                                            Nueva Partida
+                                        </Button>
+                                    </div>
+                                )}
+                            </Card>
+                        </div>
+                    );
+                }
 
-                        {/* 5. CONTROLES DEL NARRADOR */}
+                // --- VENTANA EMERGENTE DE ELIMINACIÓN (POPUP DURANTE EL JUEGO) ---
+                // Si hay un eliminado y NO es game over, mostramos el popup modal
+                if (eliminated) {
+                    return (
+                        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fade-in">
+                            <Card className={`w-full max-w-md bg-white border-4 ${amIEliminated ? 'border-blood shadow-[0_0_50px_rgba(185,28,28,0.5)]' : 'border-ink shadow-2xl'} relative p-8 flex flex-col items-center text-center`}>
+                                <h2 className="text-2xl font-cinzel text-ink font-bold uppercase mb-6 tracking-widest border-b-2 border-ink/20 pb-2 w-full">
+                                    {amIEliminated ? '¡HAS MUERTO!' : 'Juicio Finalizado'}
+                                </h2>
+
+                                <div className="text-8xl relative mb-4">
+                                    {eliminated.avatar}
+                                    <div className="absolute inset-0 flex items-center justify-center text-blood opacity-90 animate-slash" style={{ fontSize: '120%' }}>/</div>
+                                </div>
+                                
+                                <h3 className="text-4xl font-cinzel text-ink font-black uppercase mb-1">{eliminated.name}</h3>
+                                <p className="text-xl font-crimson text-blood font-bold italic mb-6">Ha sido sacrificado</p>
+                                
+                                <div className="bg-parchment-dim border-2 border-ink p-4 rounded w-full mb-6">
+                                    <p className="text-ink-light text-xs uppercase tracking-widest mb-1">Su identidad real era</p>
+                                    <p className={`text-4xl font-black ${eliminated.role === 'VAMPIRE' ? 'text-blood' : 'text-ink'}`}>
+                                        {getRoleDisplay(eliminated.role)}
+                                    </p>
+                                </div>
+
+                                {amIEliminated && (
+                                    <div className="mb-4 text-blood font-bold text-sm bg-blood/10 p-2 rounded border border-blood animate-pulse">
+                                        Ya no puedes hablar ni votar.
+                                    </div>
+                                )}
+
+                                <div className="w-full flex flex-col gap-3">
+                                    <div className="text-ink-light font-cinzel font-bold">
+                                        Continuando en {gameState?.timer}s...
+                                    </div>
+                                    
+                                    {isHost && (
+                                        <Button onClick={nextRound} className="w-full py-3 bg-ink text-white hover:bg-ink-light mt-2" variant="primary">
+                                            Cerrar (Continuar)
+                                        </Button>
+                                    )}
+                                </div>
+                            </Card>
+                        </div>
+                    );
+                }
+
+                // --- EMPATE / NADIE ELIMINADO ---
+                return (
+                    <div className="flex flex-col gap-6 items-center justify-center h-full max-w-2xl text-center p-6">
+                        <h2 className="text-4xl font-cinzel text-ink-light italic">La aldea no pudo decidir...</h2>
+                        <div className="text-8xl animate-pulse my-4">⏳</div>
+                        <p className="font-crimson font-bold text-2xl text-ink">Nadie murió esta noche.</p>
+                        
+                        <div className="mt-8 text-ink-light font-cinzel font-bold">
+                             Siguiente ronda en {gameState?.timer}s...
+                        </div>
                         {isHost && (
-                            <div className="mt-auto shrink-0 w-full max-w-md pb-4">
-                                <Button onClick={nextRound} className="w-full py-4 text-lg shadow-lg hover:scale-105">
-                                    {isGameOver ? 'Jugamos una nueva partida' : 'Saltar Espera'}
-                                </Button>
-                            </div>
+                             <Button onClick={nextRound} className="mt-4">Continuar</Button>
                         )}
                     </div>
                 );
@@ -1675,6 +1777,7 @@
 
             const me = getMyPlayer();
             const isInLimbo = peerId && gameState && !isHost && !me?.isApproved;
+            const isDead = me && !me.isAlive && !isHost;
 
             if (isInLimbo) {
                 return (
@@ -1776,6 +1879,17 @@
                 <div className="min-h-screen flex flex-col items-center p-4 relative overflow-hidden bg-parchment">
                     
                     {renderAdminControls()}
+                    
+                    {/* Visual filter for dead players */}
+                    {isDead && (
+                        <div className="fixed inset-0 pointer-events-none z-[100] bg-gray-500/20 grayscale backdrop-contrast-125 mix-blend-multiply"></div>
+                    )}
+                    
+                    {isDead && gameState?.phase !== 'GAME_OVER' && gameState?.phase !== 'ELIMINATION' && (
+                         <div className="fixed bottom-0 left-0 right-0 bg-ink text-white p-2 text-center z-[150] font-cinzel font-bold border-t-4 border-blood">
+                             ESTÁS MUERTO - MODO ESPECTADOR
+                         </div>
+                    )}
 
                     <div className="z-10 w-full flex justify-center flex-1 items-center">
                         {gameState ? (
@@ -1797,5 +1911,6 @@
         const root = createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
