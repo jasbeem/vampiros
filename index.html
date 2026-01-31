@@ -59,6 +59,7 @@
         .flex-col { flex-direction: column; }
         .flex-wrap { flex-wrap: wrap; }
         .items-center { align-items: center; }
+        .items-stretch { align-items: stretch; }
         .justify-center { justify-content: center; }
         .justify-between { justify-content: space-between; }
         .flex-1 { flex: 1; }
@@ -78,6 +79,7 @@
         .h-screen { height: 100vh; }
         .min-h-screen { min-height: 100vh; }
         .max-w-md { max-width: 28rem; }
+        .max-w-lg { max-width: 32rem; }
         .max-w-5xl { max-width: 64rem; }
         
         .fixed { position: fixed; }
@@ -98,12 +100,14 @@
         .z-\[150\] { z-index: 150; }
         .z-\[200\] { z-index: 200; }
 
+        .p-0\.5 { padding: 0.125rem; }
         .p-1 { padding: 0.25rem; }
         .p-2 { padding: 0.5rem; }
         .p-3 { padding: 0.75rem; }
         .p-4 { padding: 1rem; }
         .p-6 { padding: 1.5rem; }
         .p-8 { padding: 2rem; }
+        .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
         .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
         .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
         .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
@@ -122,12 +126,14 @@
         .mt-6 { margin-top: 1.5rem; }
         .mt-8 { margin-top: 2rem; }
         .mt-auto { margin-top: auto; }
+        .mb-1 { margin-bottom: 0.25rem; }
         .mb-2 { margin-bottom: 0.5rem; }
         .mb-4 { margin-bottom: 1rem; }
         .mb-6 { margin-bottom: 1.5rem; }
         .mb-8 { margin-bottom: 2rem; }
         
         .gap-1 { gap: 0.25rem; }
+        .gap-1\.5 { gap: 0.375rem; }
         .gap-2 { gap: 0.5rem; }
         .gap-3 { gap: 0.75rem; }
         .gap-4 { gap: 1rem; }
@@ -138,6 +144,7 @@
         .font-crimson { font-family: var(--font-body); }
         .text-center { text-align: center; }
         .text-right { text-align: right; }
+        .text-left { text-align: left; }
         .uppercase { text-transform: uppercase; }
         .italic { font-style: italic; }
         .font-bold { font-weight: 700; }
@@ -146,7 +153,10 @@
         .tracking-widest { letter-spacing: 0.1em; }
         .tracking-wide { letter-spacing: 0.05em; }
         .leading-tight { line-height: 1.25; }
+        .leading-none { line-height: 1; }
         
+        .text-\[9px\] { font-size: 9px; }
+        .text-\[10px\] { font-size: 10px; }
         .text-xs { font-size: 0.75rem; }
         .text-sm { font-size: 0.875rem; }
         .text-base { font-size: 1rem; }
@@ -163,21 +173,31 @@
         .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         .bg-white { background-color: var(--c-white); }
+        .bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
+        .bg-white\/20 { background-color: rgba(255, 255, 255, 0.2); }
+        .bg-white\/50 { background-color: rgba(255, 255, 255, 0.5); }
         .bg-parchment { background-color: var(--c-parchment); }
         .bg-parchment-dim { background-color: var(--c-parchment-dim); }
         .bg-ink { background-color: var(--c-ink); }
         .bg-blood { background-color: var(--c-blood); }
+        .bg-blood\/5 { background-color: rgba(185, 28, 28, 0.05); }
+        .bg-blood\/10 { background-color: rgba(185, 28, 28, 0.1); }
         .bg-transparent { background-color: transparent; }
         .bg-black\/90 { background-color: rgba(0, 0, 0, 0.9); }
         .bg-black\/80 { background-color: rgba(0, 0, 0, 0.8); }
-        .bg-black\/50 { background-color: rgba(0, 0, 0, 0.5); }
+        .bg-black\/60 { background-color: rgba(0, 0, 0, 0.6); }
         .bg-gray-500\/20 { background-color: rgba(107, 114, 128, 0.2); }
-        .bg-blood\/10 { background-color: rgba(185, 28, 28, 0.1); }
         
         .text-white { color: var(--c-white); }
         .text-ink { color: var(--c-ink); }
+        .text-ink\/20 { color: rgba(26, 26, 26, 0.2); }
+        .text-ink\/30 { color: rgba(26, 26, 26, 0.3); }
+        .text-ink\/40 { color: rgba(26, 26, 26, 0.4); }
+        .text-ink\/50 { color: rgba(26, 26, 26, 0.5); }
+        .text-ink\/60 { color: rgba(26, 26, 26, 0.6); }
         .text-ink-light { color: var(--c-ink-light); }
         .text-blood { color: var(--c-blood); }
+        .text-blood\/40 { color: rgba(185, 28, 28, 0.4); }
         .text-red-600 { color: #dc2626; }
         
         .border { border: 1px solid var(--c-ink); }
@@ -189,11 +209,15 @@
         .border-b { border-bottom: 1px solid var(--c-ink); }
         .border-b-2 { border-bottom: 2px solid var(--c-ink); }
         .border-b-4 { border-bottom: 4px solid var(--c-ink); }
+        .border-r { border-right: 1px solid var(--c-ink); }
         .border-l { border-left: 1px solid var(--c-ink); }
         .border-l-2 { border-left: 2px solid var(--c-ink); }
+        .border-dashed { border-style: dashed; }
         
         .border-ink { border-color: var(--c-ink); }
+        .border-ink\/10 { border-color: rgba(26, 26, 26, 0.1); }
         .border-ink\/20 { border-color: rgba(26, 26, 26, 0.2); }
+        .border-ink\/30 { border-color: rgba(26, 26, 26, 0.3); }
         .border-blood { border-color: var(--c-blood); }
         .border-red-600 { border-color: #dc2626; }
         .border-transparent { border-color: transparent; }
@@ -201,19 +225,22 @@
         .border-white\/20 { border-color: rgba(255, 255, 255, 0.2); }
         
         .rounded { border-radius: 0.25rem; }
+        .rounded-md { border-radius: 0.375rem; }
         .rounded-sm { border-radius: 0.125rem; }
         .rounded-full { border-radius: 9999px; }
         .rounded-b { border-radius: 0 0 0.25rem 0.25rem; }
+        .rounded-lg { border-radius: 0.5rem; }
         
         .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
         .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .shadow-inner { box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06); }
         .shadow-\[0_0_50px_rgba\(185\,28\,28\,0\.5\)\] { box-shadow: 0 0 50px rgba(185, 28, 28, 0.5); }
+        .shadow-\[0_-4px_6px_-1px_rgba\(0\,0\,0\,0\.1\)\] { box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1); }
 
         .opacity-0 { opacity: 0; }
-        .opacity-10 { opacity: 0.1; }
         .opacity-50 { opacity: 0.5; }
         .opacity-60 { opacity: 0.6; }
         .opacity-80 { opacity: 0.8; }
@@ -231,10 +258,16 @@
         .backdrop-blur-md { backdrop-filter: blur(12px); }
         .backdrop-contrast-125 { backdrop-filter: contrast(1.25); }
         .mix-blend-multiply { mix-blend-mode: multiply; }
+        .outline-none { outline: 2px solid transparent; outline-offset: 2px; }
 
         .group:hover .group-hover\:opacity-100 { opacity: 1; }
         .group:hover .group-hover\:scale-105 { transform: scale(1.05); }
+        .group:hover .group-hover\:bg-parchment { background-color: var(--c-parchment); }
+        .group:hover .group-hover\:bg-blood\/5 { background-color: rgba(185, 28, 28, 0.05); }
+        
         .hover\:bg-white:hover { background-color: var(--c-white); }
+        .hover\:bg-white\/20:hover { background-color: rgba(255, 255, 255, 0.2); }
+        .hover\:bg-ink:hover { background-color: var(--c-ink); }
         .hover\:bg-ink-light:hover { background-color: var(--c-ink-light); }
         .hover\:bg-blood:hover { background-color: var(--c-blood); }
         .hover\:bg-blood-light:hover { background-color: var(--c-blood-light); }
@@ -244,10 +277,18 @@
         .hover\:text-blood:hover { color: var(--c-blood); }
         .hover\:scale-105:hover { transform: scale(1.05); }
         .hover\:scale-110:hover { transform: scale(1.1); }
+        .hover\:border-ink:hover { border-color: var(--c-ink); }
+        .hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        
+        .focus\:bg-white:focus { background-color: var(--c-white); }
+        .focus\:border-ink:focus { border-color: var(--c-ink); }
+        .focus\:border-blood:focus { border-color: var(--c-blood); }
+        
         .active\:scale-95:active { transform: scale(0.95); }
+        .active\:scale-\[0\.99\]:active { transform: scale(0.99); }
+        
         .transition-all { transition: all 0.2s ease-in-out; }
         .transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-        .transition-opacity { transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
         .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
 
         .gothic-border {
@@ -313,10 +354,12 @@
         }
 
         .overflow-y-auto { overflow-y: auto; }
+        .max-h-16 { max-height: 4rem; }
         .max-h-60 { max-height: 15rem; }
         .max-h-\[50vh\] { max-height: 50vh; }
         .max-h-\[60vh\] { max-height: 60vh; }
         .max-h-\[80vh\] { max-height: 80vh; }
+        .max-h-\[85vh\] { max-height: 85vh; }
         .max-h-\[90vh\] { max-height: 90vh; }
         .min-h-0 { min-height: 0; }
         
@@ -324,6 +367,7 @@
         .filter { filter: var(--tw-filter); }
         .drop-shadow-lg { --tw-drop-shadow: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1)); filter: var(--tw-drop-shadow); }
         .drop-shadow-md { filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)); }
+        .aspect-square { aspect-ratio: 1 / 1; }
     </style>
 <link rel="stylesheet" href="/index.css">
 </head>
@@ -332,7 +376,7 @@
 
     <!-- Application Logic Inlined -->
     <script type="text/babel" data-presets="typescript,react">
-        const { useState, useEffect, useRef, useCallback } = React;
+        const { useState, useEffect, useRef, useCallback, useMemo } = React;
         const { createRoot } = ReactDOM;
 
         // --- TYPES & INTERFACES ---
@@ -347,11 +391,11 @@
           isHost: boolean;
           role: Role | null;
           isAlive: boolean;
-          isApproved: boolean; // New: For Limbo state
+          isApproved: boolean; // For Limbo state
           word: string | null;
           wordSubmitted?: string;
           isWriting?: boolean;
-          draft?: string; // New: For real-time typing
+          draft?: string;
         }
 
         interface GameSettings {
@@ -370,6 +414,14 @@
           winner: Role | null;
           eliminatedPlayerId: string | null;
           votes: Record<string, string>; // voterId -> targetId
+        }
+        
+        interface WordEntry {
+            category: string;
+            theme: string;
+            difficulty: string;
+            villager: string;
+            vampire: string;
         }
 
         // --- CONSTANTS ---
@@ -546,8 +598,8 @@
 
         // --- COMPONENTS ---
 
-        const Card = ({ children, className = "" }) => (
-          <div className={`gothic-border p-6 rounded-sm ${className}`}>
+        const Card = ({ children, className = "", style = {} }) => (
+          <div className={`gothic-border p-6 rounded-sm ${className}`} style={style}>
             {children}
           </div>
         );
@@ -556,7 +608,7 @@
             if (!isOpen) return null;
             return (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                    <div className="relative w-full max-w-md">
+                    <div className="relative w-full max-w-md max-h-screen overflow-y-auto">
                         <Card className="bg-white shadow-2xl border-4 border-ink">
                             {children}
                             <button 
@@ -574,7 +626,7 @@
         const Button = ({ onClick, disabled, variant = 'primary', children, className = "" }) => {
             const baseStyle = "font-cinzel tracking-wider px-6 py-2 rounded-sm transition-all uppercase text-sm font-bold border-2 active:scale-95 cursor-pointer";
             const variants = {
-                primary: "bg-ink text-white border-ink hover:bg-ink-light shadow-sm", // Simplified shadow
+                primary: "bg-ink text-white border-ink hover:bg-ink-light shadow-sm",
                 secondary: "bg-white text-ink border-ink hover:bg-parchment-dim shadow-sm",
                 danger: "bg-blood text-white border-blood hover:bg-blood-light",
                 ghost: "bg-transparent border-transparent text-ink-light hover:text-ink underline"
@@ -596,7 +648,7 @@
 
         const Avatar = ({ char, size = 'md', className = "", selected = false, dead = false }) => {
             const sizes = { sm: 'text-2xl w-10 h-10', md: 'text-4xl w-16 h-16', lg: 'text-6xl w-24 h-24' };
-            const xSizes = { sm: 'text-4xl', md: 'text-6xl', lg: 'text-8xl' }; // Dynamic X size
+            const xSizes = { sm: 'text-4xl', md: 'text-6xl', lg: 'text-8xl' };
             const selectedStyle = selected ? 'border-blood' : 'border-ink';
             const deadStyle = dead ? 'grayscale opacity-60' : '';
             
@@ -610,6 +662,138 @@
                 `} style={selected ? {boxShadow: '0 0 0 4px rgba(185,28,28,0.2)'} : {}}>
                     {char}
                     {dead && <span className={`absolute text-blood font-black opacity-80 ${xSizes[size] || 'text-6xl'}`}>X</span>}
+                </div>
+            );
+        };
+
+        // --- IMPORT MODAL COMPONENT (REFACTORED for Functionality) ---
+        const ImportModal = ({ onClose, onImport, data }) => {
+            
+            // Single Selection State
+            const [selectedCategory, setSelectedCategory] = useState("");
+            const [selectedTheme, setSelectedTheme] = useState("");
+            const [selectedDifficulty, setSelectedDifficulty] = useState("");
+
+            // Derived Options
+            const categories = useMemo(() => {
+                return [...new Set(data.map(d => d.category))].sort();
+            }, [data]);
+
+            const themes = useMemo(() => {
+                let filtered = data;
+                if (selectedCategory) filtered = filtered.filter(d => d.category === selectedCategory);
+                return [...new Set(filtered.map(d => d.theme))].sort();
+            }, [data, selectedCategory]);
+
+            const difficulties = useMemo(() => {
+                let filtered = data;
+                if (selectedCategory) filtered = filtered.filter(d => d.category === selectedCategory);
+                if (selectedTheme) filtered = filtered.filter(d => d.theme === selectedTheme);
+                return [...new Set(filtered.map(d => d.difficulty))].sort();
+            }, [data, selectedCategory, selectedTheme]);
+
+            // Matches
+            const matches = useMemo(() => {
+                return data.filter(d => {
+                    if (selectedCategory && d.category !== selectedCategory) return false;
+                    if (selectedTheme && d.theme !== selectedTheme) return false;
+                    if (selectedDifficulty && d.difficulty !== selectedDifficulty) return false;
+                    return true;
+                });
+            }, [data, selectedCategory, selectedTheme, selectedDifficulty]);
+
+            const handleRandom = () => {
+                if (matches.length === 0) return;
+                const choice = matches[Math.floor(Math.random() * matches.length)];
+                onImport(choice.villager, choice.vampire);
+                onClose();
+            };
+
+            return (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
+                    <div className="relative w-full max-w-md bg-white border-2 border-ink rounded-lg shadow-2xl flex flex-col overflow-hidden">
+                        
+                        {/* Header */}
+                        <div className="bg-ink text-white p-4 flex justify-between items-center shrink-0 border-b-4 border-blood">
+                            <h2 className="text-lg font-cinzel font-bold tracking-wide">Grimorio de Invocación</h2>
+                            <button 
+                                onClick={onClose} 
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white font-bold transition-colors"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        
+                        {/* Body */}
+                        <div className="bg-parchment p-6 flex flex-col gap-6">
+                            
+                            {/* Controls */}
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-xs uppercase font-bold text-ink-light tracking-widest">Categoría</label>
+                                    <select 
+                                        className="w-full p-2 rounded border-2 border-ink bg-white font-crimson text-lg focus:border-blood outline-none cursor-pointer"
+                                        value={selectedCategory}
+                                        onChange={(e) => { 
+                                            setSelectedCategory(e.target.value); 
+                                            setSelectedTheme(""); 
+                                            setSelectedDifficulty(""); 
+                                        }}
+                                    >
+                                        <option value="">-- Todas --</option>
+                                        {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                                    </select>
+                                </div>
+
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-xs uppercase font-bold text-ink-light tracking-widest">Tema</label>
+                                    <select 
+                                        className="w-full p-2 rounded border-2 border-ink bg-white font-crimson text-lg focus:border-blood outline-none cursor-pointer disabled:opacity-50"
+                                        value={selectedTheme}
+                                        onChange={(e) => { 
+                                            setSelectedTheme(e.target.value); 
+                                            setSelectedDifficulty(""); 
+                                        }}
+                                        disabled={!selectedCategory && themes.length > 5} // Optional UX: force category first if many themes
+                                    >
+                                        <option value="">-- Todos --</option>
+                                        {themes.map(t => <option key={t} value={t}>{t}</option>)}
+                                    </select>
+                                </div>
+
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-xs uppercase font-bold text-ink-light tracking-widest">Dificultad</label>
+                                    <select 
+                                        className="w-full p-2 rounded border-2 border-ink bg-white font-crimson text-lg focus:border-blood outline-none cursor-pointer"
+                                        value={selectedDifficulty}
+                                        onChange={(e) => setSelectedDifficulty(e.target.value)}
+                                    >
+                                        <option value="">-- Todas --</option>
+                                        {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* Status Display */}
+                            <div className="flex flex-col items-center justify-center p-4 bg-white border border-ink/20 rounded shadow-inner">
+                                <span className="text-4xl font-black text-ink font-cinzel animate-pulse">{matches.length}</span>
+                                <span className="text-xs uppercase tracking-widest text-ink-light font-bold">Hechizos Compatibles</span>
+                            </div>
+
+                        </div>
+
+                        {/* Footer Actions */}
+                        <div className="p-4 bg-white border-t border-ink z-20 flex gap-3 shrink-0">
+                            <Button onClick={onClose} variant="ghost" className="text-xs px-4">Cancelar</Button>
+                            <Button 
+                                onClick={handleRandom} 
+                                disabled={matches.length === 0} 
+                                className="flex-1 py-3 text-lg flex items-center justify-center gap-2 shadow-lg bg-blood border-blood text-white hover:bg-blood-light"
+                            >
+                                <span className="text-2xl">✨</span> Invocar Palabra
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             );
         };
@@ -638,6 +822,10 @@
             const [isCreating, setIsCreating] = useState(false);
             const [isLoading, setIsLoading] = useState(false);
 
+            // Import Logic State
+            const [showImportModal, setShowImportModal] = useState(false);
+            const [importedData, setImportedData] = useState([]);
+
             // Visibility Toggles
             const [showVillagerWord, setShowVillagerWord] = useState(false);
             const [showVampireWord, setShowVampireWord] = useState(false);
@@ -660,6 +848,7 @@
             const connRef = useRef(null);
             const connectionsRef = useRef([]);
             const gameStateRef = useRef(null);
+            const fileInputRef = useRef(null);
 
             // Sync Ref
             useEffect(() => {
@@ -690,26 +879,15 @@
             }, [gameState?.phase, gameState?.winner]);
 
 
-            // --- TIE GAME AUTO-RESTART ---
-            useEffect(() => {
-                if (isHost && gameState?.phase === 'ELIMINATION' && !gameState.eliminatedPlayerId && !gameState.winner) {
-                     // No winner, no eliminated player = TIE. Restart round automatically.
-                     // Handled by the main timer loop now
-                }
-            }, [gameState?.phase, isHost]);
-
-
             // --- PEERJS SETUP ---
 
             const initializePeer = (shortCode, retryCount = 0) => {
-                // Warning for file:// protocol
                 if (window.location.protocol === 'file:') {
                     setError("⚠ ERROR DE PROTOCOLO: No uses doble clic. Instala 'Live Server' en VS Code o súbelo a GitHub Pages.");
                     setIsLoading(false);
                     return;
                 }
 
-                // Clean up previous
                 if (peerRef.current) {
                     try { peerRef.current.destroy(); } catch(e) {}
                     peerRef.current = null;
@@ -723,23 +901,20 @@
                         return;
                     }
                     
-                    // We prefix the ID to avoid collisions on the public server
                     const fullId = APP_PREFIX + shortCode;
 
-                    // Use default PeerJS Cloud configuration (most stable for public usage)
                     const peer = new PeerClass(fullId, {
                         debug: 1
                     });
                     
                     peer.on('open', (id) => {
                         console.log("Peer Open:", id);
-                        setPeerId(id); // Internal full ID
+                        setPeerId(id); 
                         setIsLoading(false);
                         
-                        // We assume success if we got the ID we wanted
                         setIsHost(true);
                         const initial = {
-                            roomCode: shortCode, // Display only short code
+                            roomCode: shortCode, 
                             phase: 'LOBBY',
                             players: [{ 
                                 id: id, 
@@ -778,7 +953,6 @@
                         setIsLoading(false);
 
                         if (err.type === 'unavailable-id') {
-                             // This is rare now with the prefix, but possible if code is reused instantly
                              setError(`El código ${shortCode} está en uso. Intenta generar otro.`);
                              setIsCreating(true); 
                         } else if (err.type === 'network' || err.type === 'server-error' || err.type === 'socket-error') {
@@ -819,7 +993,6 @@
                         return;
                     }
                     
-                    // Client just needs a random ID, let PeerJS assign it (UUID)
                     const peer = new PeerClass({
                         debug: 1
                     });
@@ -835,7 +1008,6 @@
                     peer.on('open', (id) => {
                         setPeerId(id);
                         
-                        // Connect to the prefixed host ID
                         const targetHostId = APP_PREFIX + hostId;
                         console.log("Connecting to:", targetHostId);
 
@@ -889,9 +1061,58 @@
             const createRoom = () => {
                 setIsLoading(true);
                 sfx.init();
-                // Generate simple 4 digit code for UX
                 const code = Math.floor(1000 + Math.random() * 9000).toString();
                 initializePeer(code);
+            };
+
+            // --- FILE IMPORT LOGIC ---
+
+            const handleFileRead = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    const text = evt.target.result;
+                    const lines = text.split('\n');
+                    const parsedData = [];
+                    
+                    lines.forEach(line => {
+                        const parts = line.split(';');
+                        if (parts.length >= 5) {
+                            parsedData.push({
+                                category: parts[0].trim(),
+                                theme: parts[1].trim(),
+                                difficulty: parts[2].trim(),
+                                villager: parts[3].trim(),
+                                vampire: parts[4].trim()
+                            });
+                        }
+                    });
+
+                    if (parsedData.length > 0) {
+                        setImportedData(parsedData);
+                        setShowImportModal(true);
+                    } else {
+                        alert("No se encontraron datos válidos. Formato: Categoría;Tema;Dificultad;Aldeano;Vampiro");
+                    }
+                    e.target.value = null; // Reset input
+                };
+                reader.readAsText(file);
+            };
+
+            const handleImportConfirm = (villager, vampire) => {
+                if (!gameState) return;
+                const next = {
+                    ...gameState,
+                    settings: {
+                        ...gameState.settings,
+                        villagerWord: villager,
+                        vampireWord: vampire
+                    }
+                };
+                broadcastState(next); 
+                sfx.playSuccess();
             };
 
             // --- HOST LOGIC ---
@@ -912,7 +1133,6 @@
                 switch (msg.type) {
                     case 'JOIN':
                         if (current.players.find(p => p.id === msg.payload.id)) return;
-                        // Always allow joining to the array, but approval logic differs
                         const isLobby = current.phase === 'LOBBY';
                         const autoApprove = isLobby; 
 
@@ -920,7 +1140,7 @@
                             ...msg.payload,
                             isHost: false,
                             role: null,
-                            isAlive: isLobby, // If joining in lobby, alive. If mid-game, wait for approval to be set alive.
+                            isAlive: isLobby, 
                             isApproved: autoApprove,
                             word: null
                         }];
@@ -972,8 +1192,7 @@
                 if (!gameState) return;
                 const isLobby = gameState.phase === 'LOBBY';
                 
-                // Late Join Logic
-                let newRole = isLobby ? null : 'VILLAGER'; // Late joiners are villagers
+                let newRole = isLobby ? null : 'VILLAGER'; 
                 let newWord = isLobby ? null : gameState.settings.villagerWord;
                 let newAlive = true;
 
@@ -995,7 +1214,6 @@
 
             const startRound = () => {
                  if (!gameState) return;
-                 // Reset words for everyone alive
                  const nextState = {
                      ...gameState,
                      phase: 'WORD_PHASE',
@@ -1023,7 +1241,6 @@
 
                     if (current.phase === 'REVEAL') return;
 
-                    // UPDATED LOGIC: Allow timer to trigger transitions in ELIMINATION phase too (removed exclusion)
                     if (current.timer <= 0 && current.phase !== 'LOBBY' && current.phase !== 'GAME_OVER') {
                          let nextState = { ...current };
 
@@ -1040,14 +1257,10 @@
                              processEndVoting(nextState);
                              return; 
                          } else if (current.phase === 'ELIMINATION') {
-                             // AUTO-ADVANCE LOGIC
-                             
-                             // Si hay un ganador definido, pasamos a GAME_OVER después de mostrar la eliminación
                              if (current.winner) {
                                  nextState.phase = 'GAME_OVER';
                                  nextState.timer = 0;
                              } else {
-                                 // Si no hay ganador, seguimos a la siguiente ronda
                                  nextState.phase = 'WORD_PHASE';
                                  nextState.timer = current.settings.timerDuration;
                                  nextState.eliminatedPlayerId = null;
@@ -1079,9 +1292,14 @@
                 if (!gameState) return;
                 
                 let playingPlayers = gameState.players.filter(p => !p.isHost && p.isApproved);
+                
+                if (playingPlayers.length < 3) {
+                    alert("Se necesitan al menos 3 jugadores (sin contar al Narrador) para comenzar.");
+                    return;
+                }
+
                 const vampireCount = gameState.settings.vampireCount;
                 
-                // 1. MEZCLA PARA ASIGNAR ROLES (Decidir QUIÉN es vampiro)
                 for (let i = playingPlayers.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [playingPlayers[i], playingPlayers[j]] = [playingPlayers[j], playingPlayers[i]];
@@ -1096,8 +1314,6 @@
                     p.isAlive = true;
                 });
 
-                // 2. MEZCLA VISUAL (Para que el Vampiro no sea siempre el primero de la lista)
-                // Como asignamos roles por índice (0..N), si no mezclamos de nuevo, los vampiros quedarían al principio.
                 for (let i = playingPlayers.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [playingPlayers[i], playingPlayers[j]] = [playingPlayers[j], playingPlayers[i]];
@@ -1106,7 +1322,6 @@
                 const otherPlayers = gameState.players.filter(p => p.isHost || !p.isApproved);
                 const newPlayers = [...otherPlayers, ...playingPlayers];
                 
-                // El sort final solo ordena por Host/Approved, respetando el orden aleatorio interno de los Approved
                 newPlayers.sort((a, b) => {
                     if (a.isHost) return -1;
                     if (b.isHost) return 1;
@@ -1149,23 +1364,17 @@
 
                 let next = { ...currentState };
 
-                // Set timer for the Elimination view (10 seconds to read results before auto-next-round)
                 next.timer = 10;
                 next.phase = 'ELIMINATION';
 
                 if (candidateId && !tie) {
-                    // Eliminate player
                     next.eliminatedPlayerId = candidateId;
                     next.players = next.players.map(p => p.id === candidateId ? { ...p, isAlive: false } : p);
                     
-                    // Check Win Conditions
                     const activePlayers = next.players.filter(p => p.isApproved && !p.isHost);
                     const aliveVampires = activePlayers.filter(p => p.isAlive && p.role === 'VAMPIRE').length;
                     const aliveVillagers = activePlayers.filter(p => p.isAlive && p.role === 'VILLAGER').length;
 
-                    // Si alguien gana, establecemos el ganador PERO mantenemos la fase en ELIMINATION
-                    // para mostrar la animación de muerte del último jugador.
-                    // El timer loop se encargará de pasar a GAME_OVER cuando acaben los 10s.
                     if (aliveVampires === 0) {
                         next.winner = 'VILLAGER';
                     } else if (aliveVampires >= aliveVillagers) {
@@ -1173,7 +1382,6 @@
                     }
                 } else {
                     next.eliminatedPlayerId = null;
-                     // TIE: Stays in ELIMINATION phase for 10s, then loop catches it to restart round
                 }
                 broadcastState(next);
             };
@@ -1186,7 +1394,6 @@
             const nextRound = () => {
                 if (!gameState) return;
 
-                // Manual trigger fallback (mostly for Game Over restart)
                 if (gameState.phase === 'GAME_OVER') {
                     const next = {
                         ...gameState,
@@ -1240,7 +1447,6 @@
                 if (!isHost) return null;
                 const pendingPlayers = gameState?.players.filter(p => !p.isApproved && !p.isHost) || [];
                 
-                // ADDED PX-8 (32px padding) to prevent text touching edges
                 return (
                     <>
                         <div className="fixed top-0 left-0 right-0 h-20 bg-ink text-white z-50 shadow-xl border-b-4 border-blood flex items-center justify-between px-8 w-full">
@@ -1344,7 +1550,10 @@
                 );
             };
 
-            const renderLobby = () => (
+            const renderLobby = () => {
+                const activePlayerCount = gameState?.players.filter(p => p.isApproved && !p.isHost).length || 0;
+
+                return (
                 <div className="flex flex-col gap-6 w-full max-w-5xl animate-fade-in p-4">
                     <h1 className="text-5xl font-cinzel text-ink text-center tracking-wide">Cacería de Vampiros</h1>
                     
@@ -1357,7 +1566,7 @@
                     <Card className="flex flex-col gap-4" style={{ minHeight: '400px' }}>
                         <h2 className="font-cinzel border-b border-ink p-2 flex justify-between">
                             <span>Aldeanos Presentes</span>
-                            <span>{gameState?.players.filter(p => p.isApproved && !p.isHost).length}</span>
+                            <span>{activePlayerCount}</span>
                         </h2>
                         
                         <div className="flex flex-wrap gap-4 justify-center p-4 overflow-y-auto max-h-[50vh]">
@@ -1380,7 +1589,25 @@
 
                     {isHost && (
                         <Card>
-                            <h3 className="font-cinzel text-sm mb-4 bg-ink text-white p-1 px-2 inline-block rounded-sm">Grimorio (Ajustes)</h3>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="font-cinzel text-sm bg-ink text-white p-1 px-2 inline-block rounded-sm">Grimorio (Ajustes)</h3>
+                                <div>
+                                    <input 
+                                        type="file" 
+                                        accept=".csv,.txt" 
+                                        ref={fileInputRef} 
+                                        onChange={handleFileRead} 
+                                        className="hidden" 
+                                    />
+                                    <button 
+                                        onClick={() => fileInputRef.current.click()} 
+                                        className="text-xs border border-ink px-2 py-1 rounded hover:bg-ink hover:text-white transition-colors cursor-pointer font-bold"
+                                    >
+                                        📂 Importar Archivo
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="font-crimson text-sm text-ink font-bold">
                                 
                                 <div className="md:grid-cols-2 gap-4" style={{ display: 'grid' }}>
@@ -1432,13 +1659,27 @@
                         </Card>
                     )}
 
+                    {showImportModal && (
+                        <ImportModal 
+                            onClose={() => setShowImportModal(false)} 
+                            data={importedData}
+                            onImport={handleImportConfirm}
+                        />
+                    )}
+
                     {isHost ? (
-                        <Button onClick={startGame} className="w-full py-4 text-xl shadow-lg hover:scale-105">Cae la noche (Asignar Roles)</Button>
+                        <Button 
+                            onClick={startGame} 
+                            disabled={activePlayerCount < 3}
+                            className="w-full py-4 text-xl shadow-lg hover:scale-105"
+                        >
+                            {activePlayerCount < 3 ? `Esperando Aldeanos (${activePlayerCount}/3)` : 'Cae la noche (Asignar Roles)'}
+                        </Button>
                     ) : (
                         <div className="text-center italic text-ink-light animate-pulse bg-white p-2 rounded border border-ink">Esperando la señal del Narrador...</div>
                     )}
                 </div>
-            );
+            )};
 
             const renderReveal = () => {
                 const me = getMyPlayer();
@@ -1530,7 +1771,6 @@
                             </Modal>
                          )}
 
-                        {/* Grid layout for 30 players */}
                         <div className="flex-1 overflow-y-auto pr-2 border-2 border-transparent">
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                                 {activePlayers.map(p => (
@@ -1582,7 +1822,6 @@
                                             sendAction('SET_WRITING', { isWriting: e.target.value.length > 0, text: e.target.value });
                                         }}
                                     />
-                                    {/* Counter removed per request */}
                                 </div>
                                 <Button onClick={() => sendAction('SUBMIT_WORD', { word: myWord })} disabled={!myWord} className="text-sm px-4">Enviar</Button>
                             </div>
@@ -1602,7 +1841,6 @@
 
                 return (
                     <div className="flex flex-col gap-2 w-full max-w-5xl animate-fade-in h-screen p-2" style={{ maxHeight: '90vh' }}>
-                        {/* Header Compacto para dar más espacio a los iconos */}
                         <div className="flex justify-between items-center shrink-0 border-b border-ink/20 pb-2">
                             <div className="flex flex-col items-start">
                                 <h2 className="text-xl font-cinzel text-ink font-black uppercase tracking-wide">El Juicio</h2>
@@ -1613,7 +1851,6 @@
                             </div>
                         </div>
                         
-                        {/* Area de Grid Expandida */}
                         <div className="flex-1 overflow-y-auto min-h-0 border-2 border-ink rounded bg-parchment-dim p-2">
                             <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
                                 {activePlayers.filter(p => p.isAlive).map(p => {
@@ -1669,12 +1906,10 @@
                 const me = getMyPlayer();
                 const amIEliminated = eliminated?.id === peerId;
 
-                // --- PANTALLA FINAL (GAME OVER) ---
                 if (isGameOver) {
                     return (
                         <div className="flex flex-col items-center justify-center w-full max-w-5xl h-full p-4 animate-fade-in">
                             <Card className="w-full max-w-lg bg-white shadow-2xl border-4 border-ink p-8 text-center relative overflow-hidden">
-                                {/* Decoración de fondo sutil */}
                                 <div className="absolute top-0 left-0 w-full h-2 bg-ink"></div>
                                 <div className="absolute bottom-0 left-0 w-full h-2 bg-ink"></div>
 
@@ -1709,8 +1944,6 @@
                     );
                 }
 
-                // --- VENTANA EMERGENTE DE ELIMINACIÓN (POPUP DURANTE EL JUEGO) ---
-                // Si hay un eliminado y NO es game over, mostramos el popup modal
                 if (eliminated) {
                     return (
                         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fade-in">
@@ -1756,7 +1989,6 @@
                     );
                 }
 
-                // --- EMPATE / NADIE ELIMINADO ---
                 return (
                     <div className="flex flex-col gap-6 items-center justify-center h-full max-w-2xl text-center p-6">
                         <h2 className="text-4xl font-cinzel text-ink-light italic">La aldea no pudo decidir...</h2>
@@ -1880,7 +2112,6 @@
                     
                     {renderAdminControls()}
                     
-                    {/* Visual filter for dead players */}
                     {isDead && (
                         <div className="fixed inset-0 pointer-events-none z-[100] bg-gray-500/20 grayscale backdrop-contrast-125 mix-blend-multiply"></div>
                     )}

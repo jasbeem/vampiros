@@ -1,7 +1,5 @@
 {
   "name": "Vampiros",
   "description": "Un juego gótico P2P de deducción social donde los Aldeanos cazan Vampiros en las sombras.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
+  "requestFramePermissions": []
 }
