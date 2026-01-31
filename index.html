@@ -403,6 +403,8 @@
           vampireWord: string;
           vampireCount: number;
           timerDuration: number;
+          wordCategory: string; // New
+          wordTheme: string;    // New
         }
 
         interface GameState {
@@ -448,6 +450,8 @@
           vampireWord: 'Cebolla',
           vampireCount: 1,
           timerDuration: 60,
+          wordCategory: 'Libre',
+          wordTheme: 'Variado'
         };
 
         // --- AUDIO ENGINE (SFX) ---
@@ -705,7 +709,8 @@
             const handleRandom = () => {
                 if (matches.length === 0) return;
                 const choice = matches[Math.floor(Math.random() * matches.length)];
-                onImport(choice.villager, choice.vampire);
+                // Pass category and theme
+                onImport(choice.category, choice.theme, choice.villager, choice.vampire);
                 onClose();
             };
 
@@ -923,7 +928,7 @@
                                 isHost: true, 
                                 role: 'MASTER', 
                                 isAlive: true, 
-                                isApproved: true,
+                                isApproved: true, 
                                 word: null 
                             }],
                             timer: 0,
@@ -1101,14 +1106,16 @@
                 reader.readAsText(file);
             };
 
-            const handleImportConfirm = (villager, vampire) => {
+            const handleImportConfirm = (category, theme, villager, vampire) => {
                 if (!gameState) return;
                 const next = {
                     ...gameState,
                     settings: {
                         ...gameState.settings,
                         villagerWord: villager,
-                        vampireWord: vampire
+                        vampireWord: vampire,
+                        wordCategory: category,
+                        wordTheme: theme
                     }
                 };
                 broadcastState(next); 
@@ -1591,6 +1598,12 @@
                         <Card>
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="font-cinzel text-sm bg-ink text-white p-1 px-2 inline-block rounded-sm">Grimorio (Ajustes)</h3>
+                                {/* NEW DISPLAY */}
+                                <div className="text-center mb-2">
+                                     <span className="text-[10px] font-bold uppercase tracking-widest text-ink-light bg-parchment-dim border border-ink/10 px-2 py-1 rounded">
+                                        {gameState?.settings.wordCategory} • {gameState?.settings.wordTheme}
+                                     </span>
+                                </div>
                                 <div>
                                     <input 
                                         type="file" 
@@ -1735,7 +1748,15 @@
 
                 return (
                     <div className="flex flex-col gap-4 w-full max-w-5xl animate-fade-in h-screen p-4" style={{ maxHeight: '90vh' }}>
-                        <div className="flex justify-between items-center bg-white p-4 rounded border-b-2 border-ink shrink-0 shadow-sm">
+                        
+                        {/* New Header Info */}
+                         <div className="flex justify-center -mb-2 z-10">
+                            <div className="bg-ink text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest shadow-sm border border-white/20">
+                                {gameState?.settings.wordCategory} • {gameState?.settings.wordTheme}
+                            </div>
+                        </div>
+
+                        <div className="flex justify-between items-center bg-white p-4 rounded border-b-2 border-ink shrink-0 shadow-sm relative overflow-visible">
                             <div className="font-cinzel text-xl font-bold flex items-center gap-3">
                                 {isMaster ? 'Progreso' : (
                                     <div className="flex items-center gap-3 bg-parchment px-3 py-2 rounded border border-ink">
@@ -1841,6 +1862,14 @@
 
                 return (
                     <div className="flex flex-col gap-2 w-full max-w-5xl animate-fade-in h-screen p-2" style={{ maxHeight: '90vh' }}>
+                        
+                         {/* New Header Info */}
+                         <div className="flex justify-center -mb-2 z-10">
+                            <div className="bg-ink text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest shadow-sm border border-white/20">
+                                {gameState?.settings.wordCategory} • {gameState?.settings.wordTheme}
+                            </div>
+                        </div>
+
                         <div className="flex justify-between items-center shrink-0 border-b border-ink/20 pb-2">
                             <div className="flex flex-col items-start">
                                 <h2 className="text-xl font-cinzel text-ink font-black uppercase tracking-wide">El Juicio</h2>
